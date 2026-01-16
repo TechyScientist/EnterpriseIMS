@@ -2,12 +2,12 @@
 <% if(session.getAttribute("SignedInUser") == null) response.sendRedirect("/ims?error=401 (Unauthorized)&message=You must be signed in to do that."); %>
 <html>
     <head>
-        <title>IMS Web - Dashboard</title>
+        <title>IMS Web: Dashboard</title>
         <link rel="stylesheet" href="assets/style/main.css"/>
     </head>
     <body>
         <header>
-            <h2>IMS Web - Dashboard</h2>
+            <h2>IMS Web: Dashboard</h2>
         </header>
         <nav>
             <a href="SignOutServlet">Sign Out</a>

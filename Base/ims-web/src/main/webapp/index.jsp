@@ -4,12 +4,12 @@
 
 <html>
     <head>
-        <title>IMS Web - Sign In</title>
+        <title>IMS Web: Sign In</title>
         <link rel="stylesheet" type="text/css" href="assets/style/main.css">
     </head>
     <body>
         <header>
-            <h1>IMS Web - Sign In</h1>
+            <h1>IMS Web: Sign In</h1>
         </header>
         <main>
             <p id="warning"><strong>Warning</strong>: Access to IMS Web is restricted to authorized users only. Please sign in to continue.</p>
