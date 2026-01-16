@@ -14,6 +14,10 @@
         <main>
             <p id="warning"><strong>Warning</strong>: Access to IMS Web is restricted to authorized users only. Please sign in to continue.</p>
             <h2>Sign in to IMS Web</h2>
+            <% String error = request.getParameter("error"), message = request.getParameter("message");
+                if(error != null) { %>
+                    <p id="error"><strong>Error <%= error %></strong>: <%= message %></p>
+            <%  } %>
             <form action="SignInServlet" method="post">
                 <label for="username">IMS Username:</label>
                 <input type="text" name="username" id="username" required/><br/><br/>
