@@ -47,7 +47,7 @@ public class SignInServlet extends HttpServlet {
         }
         catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.sendRedirect("/temperature-suite?error=500 (Server Error)&message=" + e.getMessage());
+            response.sendRedirect("/ims?error=500 (Server Error)&message=" + e.getMessage());
         }
     }
 
