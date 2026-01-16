@@ -12,6 +12,8 @@
 
     <artifactId>ims-ear</artifactId>
     <packaging>ear</packaging>
+    <name>Base - EAR Component</name>
+    <description>Enterprise Archive Component of EnterpriseIMS</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

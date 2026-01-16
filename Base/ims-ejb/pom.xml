@@ -11,6 +11,8 @@
     </parent>
 
     <artifactId>ims-ejb</artifactId>
+    <name>Base - EJB Component</name>
+    <description>Enterprise Java Bean Component of EnterpriseIMS</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

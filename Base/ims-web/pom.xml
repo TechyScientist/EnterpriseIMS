@@ -12,6 +12,8 @@
 
     <artifactId>ims-web</artifactId>
     <packaging>war</packaging>
+    <name>Base - Web Component</name>
+    <description>Enterprise Web App Component of EnterpriseIMSr</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
