@@ -12,6 +12,7 @@
         <module>ims-ejb</module>
         <module>ims-web</module>
         <module>ims-ear</module>
+        <module>ims-api</module>
     </modules>
 
     <properties>
@@ -38,6 +39,13 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>ims-web</artifactId>
+                <version>${project.version}</version>
+                <type>war</type>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>ims-api</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
                 <scope>compile</scope>
