@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/Base/ims-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Base/ims-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Base/ims-ear/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Base/ims-ear/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Base/ims-ejb/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Base/ims-ejb/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Base/ims-web/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Base/ims-web/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Base/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Base/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

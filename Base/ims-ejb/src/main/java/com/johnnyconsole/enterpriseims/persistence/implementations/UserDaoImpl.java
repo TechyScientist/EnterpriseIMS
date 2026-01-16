@@ -89,11 +89,9 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean verifyUserPassword(String username, String password) {
+    public boolean verifyUserPassword(User user, String password) {
         try {
-            User user = getUser(username);
-            if(user == null) return false;
-            else return BCrypt.verifyer()
+            return BCrypt.verifyer()
                     .verify(password.getBytes(), user.getPassword().getBytes())
                     .verified;
         } catch(Exception e) {

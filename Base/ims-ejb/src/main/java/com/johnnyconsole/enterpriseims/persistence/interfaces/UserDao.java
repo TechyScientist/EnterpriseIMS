@@ -15,6 +15,6 @@ public interface UserDao {
     boolean addUser(User user);
     boolean updateUser(User user);
     boolean deleteUser(User user, String myUsername);
-    boolean verifyUserPassword(String username, String password);
+    boolean verifyUserPassword(User user, String password);
 
 }

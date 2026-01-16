@@ -23,13 +23,18 @@ public class SignInServlet extends HttpServlet {
             if(request.getParameter("ims-signin-submit") != null) {
                 String username = request.getParameter("username").toLowerCase(),
                         password = request.getParameter("password");
-                if (userDao.verifyUserPassword(username, password)) {
+                if(userDao.userExists(username)) {
                     User user = userDao.getUser(username);
 
-                    HttpSession session = request.getSession();
-                    session.setAttribute("SignedInUser", user);
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    response.sendRedirect("dashboard.jsp");
+                    if(userDao.verifyUserPassword(user, password)) {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("SignedInUser", user);
+                        response.setStatus(HttpServletResponse.SC_OK);
+                        response.sendRedirect("dashboard.jsp");
+                    } else {
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        response.sendRedirect("/ims?error=401 (Unauthorized)&message=Invalid credentials, please try again.");
+                    }
                 }
                 else {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
