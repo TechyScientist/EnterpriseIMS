@@ -11,6 +11,7 @@
     <modules>
         <module>ims-ejb</module>
         <module>ims-web</module>
+        <module>ims-ear</module>
     </modules>
 
     <properties>
