@@ -1,0 +1,110 @@
+:root {
+    --color-primary: #032475;
+    --color-background: #DCE6FF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Calibri Light", sans-serif;
+}
+
+body {
+    margin: 20px 200px;
+    background: var(--color-background)
+}
+
+main {
+    padding: 30px;
+}
+
+h2 {
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+a {
+    display: block;
+    width: fit-content;
+    color: black;
+    margin-bottom: 10px;
+}
+
+form {
+    width: fit-content;
+    margin-left: 30px;
+    margin-bottom: 25px;
+}
+
+label {
+    margin-right: 10px;
+}
+
+input:not([type="submit"]), select, textarea {
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid black;
+    outline: none;
+    box-shadow: none;
+}
+
+input:not([type="submit"]):focus, textarea:focus {
+    border: 2px solid var(--color-primary);
+}
+
+input[type="text"], select {
+    margin-right: 10px;
+}
+
+input[type="submit"] {
+    display: block;
+    width: 100%;
+    background: var(--color-primary);
+    color: white;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+header {
+    background: var(--color-primary);
+    padding: 20px;
+    color: white;
+    border-radius: 16px;
+}
+
+hr {
+    height: 20px;
+    background-color: var(--color-primary);
+    border-radius: 16px;
+}
+
+p#success {
+    background-color: darkgreen;
+    color: white;
+    border-radius: 16px;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+p#warning {
+    background-color: #E6B848;
+    color: black;
+    border-radius: 16px;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+p#error {
+    background-color: darkred;
+    color: white;
+    border-radius: 16px;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 10px;
+}
