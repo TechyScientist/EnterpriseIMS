@@ -1,3 +1,7 @@
+<%
+    if(session.getAttribute("SignedInUser") != null) response.sendRedirect("dashboard.jsp");
+%>
+
 <html>
     <head>
         <title>IMS Web - Sign In</title>
@@ -10,7 +14,7 @@
         <main>
             <p id="warning"><strong>Warning</strong>: Access to IMS Web is restricted to authorized users only. Please sign in to continue.</p>
             <h2>Sign in to IMS Web</h2>
-            <form action="/SignInServlet" method="post">
+            <form action="SignInServlet" method="post">
                 <label for="username">IMS Username:</label>
                 <input type="text" name="username" id="username" required/><br/><br/>
                 <label for="password">IMS Password:</label>
