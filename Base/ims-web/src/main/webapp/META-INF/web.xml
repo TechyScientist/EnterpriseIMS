@@ -8,4 +8,8 @@
         <servlet-name>SignOutServlet</servlet-name>
         <servlet-class>com.johnnyconsole.enterpriseims.servlet.SignOutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddUserServlet</servlet-name>
+        <servlet-class>com.johnnyconsole.enterpriseims.servlet.AddUserServlet</servlet-class>
+    </servlet>
 </web-app>
