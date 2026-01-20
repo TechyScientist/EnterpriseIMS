@@ -43,7 +43,7 @@
                     <h3>User Management</h3>
                     <a href="add-user.jsp">Provision a User Account</a>
                     <a href="">Modify an Existing User Account</a>
-                    <a href="">Delete an Existing User Account</a>
+                    <a href="delete-user.jsp">Delete an Existing User Account</a>
                 </div>
             </div>
         </main>
