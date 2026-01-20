@@ -18,12 +18,15 @@
             <a href="SignOutServlet">Sign Out</a>
         </nav>
         <main>
+            <% if(request.getParameter("user") != null) { %>
+                <p id="success"><strong>The user account has been added.</strong></p>
+            <% } %>
             <% String error = request.getParameter("error"), message = request.getParameter("message");
                 if(error != null) { %>
                 <p id="error"><strong>Error <%= error %></strong>: <%= message %></p>
                 <% } %>
             <h2>Provision a User Account</h2>
-            <form action="" method="post">
+            <form action="AddUserServlet" method="post">
                 <label for="username">Username:</label>
                 <input type="text" name="username" id="username" required/><br/><br/>
                 <label for="name">Name:</label>
