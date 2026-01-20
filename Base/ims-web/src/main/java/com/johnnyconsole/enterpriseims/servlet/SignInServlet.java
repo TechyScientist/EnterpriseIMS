@@ -29,6 +29,7 @@ public class SignInServlet extends HttpServlet {
                     if(userDao.verifyUserPassword(user, password)) {
                         HttpSession session = request.getSession();
                         session.setAttribute("SignedInUser", user);
+                        session.setAttribute("UserDao", userDao);
                         response.setStatus(HttpServletResponse.SC_OK);
                         response.sendRedirect("dashboard.jsp");
                     } else {
@@ -42,7 +43,7 @@ public class SignInServlet extends HttpServlet {
                 }
             } else {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.sendRedirect("/ims?error=401 (Unauthorized)&message=This action must be initiated by the sign in form.");
+                response.sendRedirect("/ims?error=401 (Unauthorized)&message=This action must be initiated by the add user form.");
             }
         }
         catch (Exception e) {
