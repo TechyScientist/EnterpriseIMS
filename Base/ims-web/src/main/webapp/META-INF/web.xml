@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <web-app>
-<servlet>
-    <servlet-name>SignInServlet</servlet-name>
-    <servlet-class>com.johnnyconsole.enterpriseims.servlet.SignInServlet</servlet-class>
-</servlet>
+    <servlet>
+        <servlet-name>SignInServlet</servlet-name>
+        <servlet-class>com.johnnyconsole.enterpriseims.servlet.SignInServlet</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>SignOutServlet</servlet-name>
         <servlet-class>com.johnnyconsole.enterpriseims.servlet.SignOutServlet</servlet-class>
