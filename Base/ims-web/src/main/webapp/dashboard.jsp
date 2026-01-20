@@ -7,18 +7,19 @@
     </head>
     <body>
         <header>
-            <h2>IMS Web: Dashboard</h2>
+            <h1>IMS Web: Dashboard</h1>
         </header>
         <nav>
+            <a href="dashboard.jsp" id="current">Dashboard</a>
             <a href="SignOutServlet">Sign Out</a>
         </nav>
         <main>
             <% User user = (User)(session.getAttribute("SignedInUser")); %>
-            <h3>Signed In as: <%= user.getUsername() %> <%
+            <h2>Signed In as: <%= user.getUsername() %> <%
                 if(user.isAdministrator()) { %>
                     <span style="display: inline-block; padding: 5px; font-size: 10px; font-weight: normal; vertical-align: middle; background: var(--color-primary); color: white; border-radius: 16px;">Adminstrator</span>
                 <% } %>
-            </h3>
+            </h2>
         </main>
     </body>
 </html>

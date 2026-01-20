@@ -15,7 +15,7 @@ body {
 }
 
 main {
-    padding: 30px;
+    padding: 5px 30px 30px 30px;
 }
 
 h2 {
@@ -80,6 +80,22 @@ hr {
     height: 20px;
     background-color: var(--color-primary);
     border-radius: 16px;
+}
+
+nav {
+    margin: 10px 30px;
+}
+
+nav a {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px;
+    margin-right: 5px;
+}
+
+nav a#current, nav a:hover {
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-primary);
 }
 
 p#success {
