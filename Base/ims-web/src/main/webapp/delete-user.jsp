@@ -45,7 +45,7 @@
                         <%  }
                         }%>
                 </select><br/><br/>
-                <input type="submit" name="add-user-submit" id="delete-user-submit" value="Submit"/>
+                <input type="submit" name="delete-user-submit" id="delete-user-submit" value="Submit"/>
             </form>
         </main>
     </body>
