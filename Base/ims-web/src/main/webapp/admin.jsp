@@ -3,7 +3,7 @@
    else if(!((User)(session.getAttribute("SignedInUser"))).isAdministrator()) response.sendRedirect("/ims/dashboard.jsp?error=401 (Unauthorized)&message=You must be an administrator to do that.");%>
 <html>
     <head>
-        <title>IMS Web: Dashboard</title>
+        <title>IMS Web: Administration</title>
         <link rel="stylesheet" href="assets/style/main.css"/>
         <style>
             div#horizontal {
