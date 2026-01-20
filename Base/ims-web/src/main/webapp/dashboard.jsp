@@ -18,6 +18,10 @@
             <a href="SignOutServlet">Sign Out</a>
         </nav>
         <main>
+            <% String error = request.getParameter("error"), message = request.getParameter("message");
+                if(error != null) { %>
+                    <p id="error"><strong>Error <%= error %></strong>: <%= message %></p>
+            <% } %>
             <h2>Signed In as: <%= user.getUsername() %> <%
                 if(user.isAdministrator()) { %>
                     <span style="display: inline-block; padding: 5px; font-size: 10px; font-weight: normal; vertical-align: middle; background: var(--color-primary); color: white; border-radius: 16px;">Adminstrator</span>
