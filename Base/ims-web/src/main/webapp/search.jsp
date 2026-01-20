@@ -13,6 +13,7 @@
         <nav>
             <a href="dashboard.jsp">Dashboard</a>
             <a href="search.jsp" id="current">Search</a>
+            <a href="transactions.jsp">Transactions</a>
             <% if(user.isAdministrator()) { %>
                 <a href="admin.jsp">Administration</a>
             <% } %>

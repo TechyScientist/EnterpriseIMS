@@ -26,6 +26,7 @@
         <nav>
             <a href="dashboard.jsp">Dashboard</a>
             <a href="search.jsp">Search</a>
+            <a href="transactions.jsp">Transactions</a>
             <a href="admin.jsp" id="current">Administration</a>
             <a href="SignOutServlet">Sign Out</a>
         </nav>
