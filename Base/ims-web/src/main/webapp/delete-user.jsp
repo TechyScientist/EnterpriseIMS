@@ -31,7 +31,7 @@
                 if(error != null) { %>
                 <p id="error"><strong>Error <%= error %></strong>: <%= message %></p>
                 <% } %>
-            <h2>Provision a User Account</h2>
+            <h2>Delete a User Account</h2>
             <form action="DeleteUserServlet" method="post">
                 <input type="hidden" name="admin-username" id="admin-username" value="<%= signedIn.getUsername() %>"/>
                 <label for="username">Username:</label>
