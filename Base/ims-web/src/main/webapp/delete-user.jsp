@@ -5,7 +5,8 @@
    else if(!((User)(session.getAttribute("SignedInUser"))).isAdministrator()) response.sendRedirect("/ims/dashboard.jsp?error=401 (Unauthorized)&message=You must be an administrator to do that.");
    UserDao userDao = (UserDao)session.getAttribute("UserDao");
    User signedIn = (User)(session.getAttribute("SignedInUser"));
-   List<User> users = userDao.getUsersExcept(signedIn.getUsername())%>
+   List<User> users = userDao.getUsersExcept(signedIn.getUsername());
+%>
 <html>
     <head>
         <title>IMS Web: Administration</title>
@@ -36,14 +37,15 @@
                 <label for="username">Username:</label>
                 <select name="username" id="username">
                     <%
-                        if(users.isEmpty()) %> <option value="" disabled>No Users Found</option>
-                        <% else {
+                        if(users.isEmpty()) {%>
+                            <option value="" disabled>No Users Found</option>
+                        <% } else {
                             for(User user: users) { %>
                                 <option value="<%= user.getUsername() %>"><%= user.getName() %> (<%= user.getUsername()%>)</option>
                         <%  }
                         }%>
                 </select><br/><br/>
-                <input type="submit" name="add-user-submit" id="add-user-submit" value="Submit"/>
+                <input type="submit" name="add-user-submit" id="delete-user-submit" value="Submit"/>
             </form>
         </main>
     </body>
