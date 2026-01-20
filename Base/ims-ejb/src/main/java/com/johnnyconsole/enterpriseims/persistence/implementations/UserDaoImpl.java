@@ -77,10 +77,10 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean deleteUser(User user, String myUsername) {
         try {
-            if(user.getUsername().equals(myUsername) || !manager.contains(user)) {
+            if(user.getUsername().equals(myUsername)) {
                 return false;
             }
-            manager.remove(user);
+            manager.remove((manager.contains(user) ? user : manager.merge(user)));
             return true;
         }
         catch(Exception e) {
