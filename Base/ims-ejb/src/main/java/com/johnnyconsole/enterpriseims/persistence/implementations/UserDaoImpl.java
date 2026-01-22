@@ -4,14 +4,12 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.johnnyconsole.enterpriseims.persistence.User;
 import com.johnnyconsole.enterpriseims.persistence.interfaces.UserDao;
 
-import javax.ejb.Stateful;
-import javax.enterprise.inject.Alternative;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-@Stateful
-@Alternative
+@Stateless
 public class UserDaoImpl implements UserDao {
 
     @PersistenceContext(unitName="user")
