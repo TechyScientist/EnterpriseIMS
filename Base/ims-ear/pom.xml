@@ -56,11 +56,6 @@
                             <artifactId>ims-web</artifactId>
                             <contextRoot>/ims</contextRoot>
                         </webModule>
-                        <webModule>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>ims-api</artifactId>
-                            <contextRoot>/ims/api</contextRoot>
-                        </webModule>
                     </modules>
                     <outputFileNameMapping>@{artifactId}@@{dashClassifier?}@.@{extension}@</outputFileNameMapping>
                 </configuration>
