@@ -1,11 +1,11 @@
 package com.johnnyconsole.enterpriseims.persistence.interfaces;
 
 import com.johnnyconsole.enterpriseims.persistence.User;
-import jdk.nashorn.internal.runtime.logging.Logger;
 
+import javax.ejb.Local;
 import java.util.List;
 
-@Logger
+@Local
 public interface UserDao {
 
     User getUser(String username);
