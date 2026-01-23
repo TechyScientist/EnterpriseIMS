@@ -1,6 +1,5 @@
 package com.johnnyconsole.enterpriseims.api.classes;
 
-import com.johnnyconsole.enterpriseims.persistence.User;
 import com.johnnyconsole.enterpriseims.persistence.interfaces.UserDao;
 
 import javax.ejb.EJB;
@@ -14,6 +13,8 @@ import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
+import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 
 @Path("/auth")
 @Stateless
@@ -28,41 +29,18 @@ public class AuthApi {
     @Produces(APPLICATION_JSON)
     public Response signIn(@FormParam("username") String username,
                            @FormParam("password") String password) {
-        int status = 200;
-        String json;
-        if (username != null && password != null &&
-                !username.isEmpty() && !password.isEmpty()) {
-            if (userDao.userExists(username)) {
-                User user = userDao.getUser(username);
 
-                if (userDao.verifyUserPassword(user, password)) {
-                    json = "{\n\t" +
-                            "\"username\": \"" + user.getUsername() + "\",\n\t" +
-                            "\"name\": \"" + user.getName() + "\",\n\t" +
-                            "\"is_administrator\": " + user.isAdministrator() + "\n" +
-                            "}";
-                } else {
-                    status = 401;
-                    json = "{\n\t" +
-                            "\"error\": \"401 (Unauthorized)\",\n\t" +
-                            "\"message\": \"Invalid credentials, please try again\"\n" +
-                            "}";
-                }
-            } else {
-                status = 401;
-                json = "{\n\t" +
-                        "\"error\": \"401 (Unauthorized)\",\n\t" +
-                        "\"message\": \"Invalid credentials, please try again.\"\n" +
-                        "}";
-            }
-        } else {
-            status = 400;
-            json = "{\n\t" +
-                    "\"error\": \"400 (Bad Request)\",\n\t" +
-                    "\"message\": \"Missing username or password.\"\n" +
-                    "}";
+        if(username == null || username.isEmpty() || password == null || password.isEmpty()) {
+           return Response.status(BAD_REQUEST).build();
         }
-
-        return Response.status(status).entity(json).build();
+        else if(!userDao.userExists(username)) {
+            return Response.status(UNAUTHORIZED).build();
+        }
+           else if(!userDao.verifyUserPassword(userDao.getUser(username), password)) {
+            return Response.status(UNAUTHORIZED).build();
+        }
+           else {
+            return Response.ok(userDao.getUser(username)).build();
+        }
     }
 }
