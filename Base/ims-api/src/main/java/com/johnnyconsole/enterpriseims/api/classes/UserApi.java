@@ -9,14 +9,11 @@ import javax.ejb.Stateless;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
+import java.util.List;
+
 import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
-import static javax.ws.rs.core.Response.Status.NOT_FOUND;
-import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
-import static javax.ws.rs.core.Response.Status.CONFLICT;
-import static javax.ws.rs.core.Response.Status.CREATED;
-import static javax.ws.rs.core.Response.Status.NO_CONTENT;
+import static javax.ws.rs.core.Response.Status.*;
 
 @Path("/user")
 @Stateless
@@ -41,6 +38,29 @@ public class UserApi {
         }
         else {
             return Response.ok(userDao.getUser(username)).build();
+        }
+    }
+
+    @GET
+    @Path("/get-all")
+    @Consumes(APPLICATION_FORM_URLENCODED)
+    @Produces(APPLICATION_JSON)
+    public Response getAll(@QueryParam("except") String except,
+                           @QueryParam("auth-user") String authUser) {
+
+        if(except == null) except = "";
+        if(authUser == null || authUser.isEmpty()) {
+            return Response.status(BAD_REQUEST).build();
+        }
+        else if(!userDao.userExists(authUser) || (!except.isEmpty() && !userDao.userExists(except))) {
+            return Response.status(NOT_FOUND).build();
+        }
+        else if(!userDao.getUser(authUser).isAdministrator()) {
+            return Response.status(UNAUTHORIZED).build();
+        }
+        else {
+            List<User> users = userDao.getUsersExcept(except);
+            return Response.status(ACCEPTED).entity(users).build();
         }
     }
 
