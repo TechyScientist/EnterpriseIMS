@@ -122,7 +122,7 @@ public class UserApi {
         }
         else {
             userDao.deleteUser(userDao.getUser(username), authUser);
-            return Response.status(NO_CONTENT).build();
+            return Response.status(ACCEPTED).build();
         }
     }
 }
