@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Android"
+rootProject.name = "Enterprise IMS Android App"
 include(":app")
  
