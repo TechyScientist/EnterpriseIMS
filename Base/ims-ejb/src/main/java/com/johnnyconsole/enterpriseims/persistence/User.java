@@ -1,5 +1,6 @@
 package com.johnnyconsole.enterpriseims.persistence;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 
 @Entity
@@ -11,7 +12,8 @@ import javax.persistence.*;
 })
 public class User {
     @Id private String username;
-    private String name, password;
+    private String name;
+    @JsonbTransient private String password;
     private boolean isAdministrator;
 
     public User(){}
@@ -39,10 +41,12 @@ public class User {
         this.name = name;
     }
 
+    @JsonbTransient
     public String getPassword() {
         return password;
     }
 
+    @JsonbTransient
     public void setPassword(String password) {
         this.password = password;
     }
