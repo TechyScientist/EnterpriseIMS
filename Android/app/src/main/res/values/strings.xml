@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Android</string>
+    <string name="sign_in_header">IMS Android: Sign In</string>
 </resources>
