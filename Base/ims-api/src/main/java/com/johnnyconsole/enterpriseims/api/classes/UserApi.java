@@ -16,7 +16,7 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 import static javax.ws.rs.core.Response.Status.CONFLICT;
 import static javax.ws.rs.core.Response.Status.CREATED;
-import static javax.ws.rs.core.Response.Status.NOT_IMPLEMENTED;
+import static javax.ws.rs.core.Response.Status.NO_CONTENT;
 
 @Path("/user")
 @Stateless
@@ -88,9 +88,21 @@ public class UserApi {
     @Consumes(APPLICATION_FORM_URLENCODED)
     @Produces(APPLICATION_JSON)
     public Response delete(@FormParam("username") String username,
-                           @FormParam("authUser") String authUser) {
+                           @FormParam("auth-user") String authUser) {
 
-        //TODO: Add implementation from DeleteUserServlet
-        return Response.status(NOT_IMPLEMENTED).build();
+        if(username == null || username.isEmpty() ||
+                authUser == null || authUser.isEmpty()) {
+            return Response.status(BAD_REQUEST).build();
+        }
+        else if(!userDao.userExists(authUser) || !userDao.userExists(username)) {
+            return Response.status(NOT_FOUND).build();
+        }
+        else if(!userDao.getUser(authUser).isAdministrator()) {
+            return Response.status(UNAUTHORIZED).build();
+        }
+        else {
+            userDao.deleteUser(userDao.getUser(username), authUser);
+            return Response.status(NO_CONTENT).build();
+        }
     }
 }
