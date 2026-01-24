@@ -104,6 +104,11 @@ class MainActivity : AppCompatActivity() {
                 insets
             }
 
+            etUsername.setText(
+                getSharedPreferences("EnterpriseIMS", MODE_PRIVATE)
+                    .getString("username", "")
+            )
+
             tvWarning.text = Html.fromHtml(getString(R.string.sign_in_warning),
                 Html.FROM_HTML_MODE_LEGACY)
 
