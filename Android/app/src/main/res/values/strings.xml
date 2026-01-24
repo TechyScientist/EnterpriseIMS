@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Android</string>
     <string name="sign_in_header">IMS Android: Sign In</string>
+    <string name="username_label">Username:</string>
+    <string name="password_label">Password:</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_in_warning"><![CDATA[<strong>Warning</strong>: Access to IMS Android is restricted to authorized users only. Please sign in to continue.]]></string>
+    <string name="error_message"><![CDATA[<strong>Error</strong>: %1$s]]></string>
 </resources>
