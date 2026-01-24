@@ -1,6 +1,7 @@
 package com.johnnyconsole.enterpriseims.android
 
 import android.os.Bundle
+import android.text.Html
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -22,6 +23,9 @@ class MainActivity : AppCompatActivity() {
                 v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom)
                 insets
             }
+
+            tvWarning.text = Html.fromHtml(getString(R.string.sign_in_warning),
+                Html.FROM_HTML_MODE_LEGACY)
         }
     }
 }
