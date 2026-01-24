@@ -13,4 +13,8 @@
     <string name="transactions">Transactions</string>
     <string name="administration">Administration</string>
     <string name="sign_out">Sign Out</string>
+    <string name="confirm_sign_out_title">Confirm Sign Out</string>
+    <string name="confirm_sign_out_message">Are you sure you want to sign out?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
