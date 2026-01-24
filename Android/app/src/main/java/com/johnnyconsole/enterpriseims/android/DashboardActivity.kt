@@ -1,6 +1,7 @@
 package com.johnnyconsole.enterpriseims.android
 
 import android.os.Bundle
+import android.view.View.VISIBLE
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -22,6 +23,16 @@ class DashboardActivity : AppCompatActivity() {
                 v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom)
                 insets
             }
+
+            tvDisplay.text = getString(R.string.signed_in_as,
+                intent.getStringExtra("username")
+            )
+
+            if(intent.getBooleanExtra("administrator", false)) {
+                tvAdminBadge.visibility = VISIBLE
+                btAdministration.visibility = VISIBLE
+            }
+
         }
     }
 }

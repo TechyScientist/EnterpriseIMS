@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                     Intent(this@MainActivity, DashboardActivity::class.java)
                         .putExtra("username", userInfo.getString("username"))
                         .putExtra("name", userInfo.getString("name"))
-                        .putExtra("is_administrator", userInfo.getBoolean("administrator"))
+                        .putExtra("administrator", userInfo.getBoolean("administrator"))
                 )
             }
             else {
