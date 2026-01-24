@@ -7,4 +7,10 @@
     <string name="sign_in_warning"><![CDATA[<strong>Warning</strong>: Access to IMS Android is restricted to authorized users only. Please sign in to continue.]]></string>
     <string name="error_message"><![CDATA[<strong>Error</strong>: %1$s]]></string>
     <string name="dashboard_header">IMS Android: Dashboard</string>
+    <string name="signed_in_as">Signed in as: %1$s</string>
+    <string name="admin_badge_text">Administrator</string>
+    <string name="search">Search</string>
+    <string name="transactions">Transactions</string>
+    <string name="administration">Administration</string>
+    <string name="sign_out">Sign Out</string>
 </resources>
