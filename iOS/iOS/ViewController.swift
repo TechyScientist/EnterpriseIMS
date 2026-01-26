@@ -33,13 +33,13 @@ class ViewController: UIViewController {
             let responseCode = (response as! HTTPURLResponse).statusCode
             
             DispatchQueue.main.async {
-                if(responseCode == 200) {
+                if(responseCode == StatusCode.OK) {
                     //TODO: Interpret user response, implement storyboard segue to dashboard activity, pass user information to next view controller
                     print("Signed In!")
                 }
                 else {
                     let errorText = switch(responseCode) {
-                        case 401: "Invalid credentials, please try again."
+                    case StatusCode.UNAUTHORIZED: "Invalid credentials, please try again."
                         default: "Missing credentials, please try again."
                     }
                     self!.lbError.text = "Error: \(errorText)"
