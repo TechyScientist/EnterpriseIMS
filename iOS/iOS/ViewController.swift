@@ -39,8 +39,9 @@ class ViewController: UIViewController {
                 }
                 else {
                     let errorText = switch(responseCode) {
-                    case StatusCode.UNAUTHORIZED: "Invalid credentials, please try again."
-                        default: "Missing credentials, please try again."
+                        case StatusCode.UNAUTHORIZED: "Invalid credentials, please try again."
+                        case StatusCode.BAD_REQUEST: "Missing credentials, please try again."
+                        default: "Unexpected HTTP response code: \(responseCode)."
                     }
                     self!.lbError.text = "Error: \(errorText)"
                     print(self!.lbError.text ?? "NOTHING")
