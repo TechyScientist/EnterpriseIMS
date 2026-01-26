@@ -145,12 +145,12 @@
                                             </button>
                                         </subviews>
                                     </stackView>
-                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="plz-ib-KNL">
-                                        <rect key="frame" x="0.0" y="286.33333333333331" width="353" height="0.0"/>
-                                        <color key="color" name="AccentColor"/>
-                                    </activityIndicatorView>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="plz-ib-KNL">
+                                <rect key="frame" x="178" y="486.33333333333331" width="37" height="36.999999999999943"/>
+                                <color key="color" name="AccentColor"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="Background"/>
@@ -160,7 +160,9 @@
                             <constraint firstItem="4Kh-Rf-O2E" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="IDY-Rq-oEk"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aWA-sr-dov" secondAttribute="trailing" constant="20" id="JWq-gB-HI9"/>
                             <constraint firstItem="4Kh-Rf-O2E" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="K6r-8L-2Vq"/>
+                            <constraint firstItem="plz-ib-KNL" firstAttribute="top" secondItem="aWA-sr-dov" secondAttribute="bottom" constant="50" id="Yjk-JK-ite"/>
                             <constraint firstItem="aWA-sr-dov" firstAttribute="top" secondItem="4Kh-Rf-O2E" secondAttribute="bottom" constant="20" id="jF2-Vx-ybe"/>
+                            <constraint firstItem="plz-ib-KNL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kzx-bI-Hcq"/>
                         </constraints>
                     </view>
                     <connections>
@@ -211,8 +213,12 @@
                             <constraint firstItem="HUy-af-Vq4" firstAttribute="leading" secondItem="xT5-AU-cc8" secondAttribute="leading" id="qKO-fS-wwD"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <segue destination="24d-oc-9o2" kind="unwind" identifier="SignOut" unwindAction="signOut:" id="DHQ-DU-OgV"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XVa-DU-eTe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="24d-oc-9o2" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="985" y="131"/>
         </scene>
