@@ -39,7 +39,8 @@ class ViewController: UIViewController {
             DispatchQueue.main.async {
                 if(responseCode == StatusCode.OK) {
                     if let user = try? JSONDecoder().decode(User.self, from: self.userData!) {
-                        //TODO: implement storyboard segue to dashboard activity, pass user information to next view controller
+                        self.tfPassword.text = ""
+                        self.performSegue(withIdentifier: "ShowDashboard", sender: user)
                     }
                     else {
                         self.lbError.text = "Error: Could not parse user data."
