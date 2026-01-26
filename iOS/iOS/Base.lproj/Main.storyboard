@@ -114,6 +114,9 @@
                                         <rect key="frame" x="0.0" y="96.666666666666686" width="200" height="34.333333333333343"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Sign In"/>
+                                        <connections>
+                                            <action selector="onSignIn" destination="BYZ-38-t0r" eventType="touchUpInside" id="F0Z-An-vh7"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -165,6 +168,13 @@
                             <constraint firstItem="Rep-xj-q3y" firstAttribute="top" secondItem="Lqr-VW-xa8" secondAttribute="bottom" priority="750" constant="50" id="qGn-YL-iql"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="errorView" destination="pN3-Nt-SeA" id="Jyp-xM-8mA"/>
+                        <outlet property="indicator" destination="plz-ib-KNL" id="mDF-nT-g5h"/>
+                        <outlet property="lbError" destination="iPw-Oa-lrw" id="d5J-m3-2pm"/>
+                        <outlet property="tfPassword" destination="Ycv-Wi-rCg" id="dfE-ta-NpF"/>
+                        <outlet property="tfUsername" destination="TdI-8S-v0Z" id="tnN-fW-JGI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
