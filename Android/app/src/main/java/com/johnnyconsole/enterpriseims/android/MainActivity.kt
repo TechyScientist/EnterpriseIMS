@@ -21,6 +21,7 @@ import java.net.URL
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.HttpsURLConnection
 import androidx.core.content.edit
+import java.net.HttpURLConnection.HTTP_BAD_REQUEST
 
 class MainActivity : AppCompatActivity() {
 
@@ -82,7 +83,8 @@ class MainActivity : AppCompatActivity() {
                 binding.tvError.text = Html.fromHtml(getString(R.string.error_message,
                     when(response) {
                         HTTP_UNAUTHORIZED -> "Invalid credentials, please try again."
-                        else -> "Empty credentials, please try again."
+                        HTTP_BAD_REQUEST -> "Empty credentials, please try again."
+                        else -> "Unexpected HTTP response code: $response."
                     }), Html.FROM_HTML_MODE_LEGACY)
                 binding.tvError.visibility = VISIBLE
             }
