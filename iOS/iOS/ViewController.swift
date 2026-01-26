@@ -15,6 +15,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var tfPassword: UITextField!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
+    private var userData: Data?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,13 +31,21 @@ class ViewController: UIViewController {
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpBody = "username=\(tfUsername.text ?? "")&password=\(tfPassword.text ?? "")".data(using: .utf8)
         let session = URLSession(configuration: .default)
-        session.dataTask(with: request) { [weak self] data, response, error in
+        session.dataTask(with: request) { [self] data, response, error in
             let responseCode = (response as! HTTPURLResponse).statusCode
-            
+            if(responseCode == StatusCode.OK) {
+                userData = data
+            }
             DispatchQueue.main.async {
                 if(responseCode == StatusCode.OK) {
-                    //TODO: Interpret user response, implement storyboard segue to dashboard activity, pass user information to next view controller
-                    print("Signed In!")
+                    if let user = try? JSONDecoder().decode(User.self, from: self.userData!) {
+                        //TODO: implement storyboard segue to dashboard activity, pass user information to next view controller
+                    }
+                    else {
+                        self.lbError.text = "Error: Could not parse user data."
+                        self.errorView.sizeToFit()
+                        self.errorView.isHidden = false
+                    }
                 }
                 else {
                     let errorText = switch(responseCode) {
@@ -43,16 +53,13 @@ class ViewController: UIViewController {
                         case StatusCode.BAD_REQUEST: "Missing credentials, please try again."
                         default: "Unexpected HTTP response code: \(responseCode)."
                     }
-                    self!.lbError.text = "Error: \(errorText)"
-                    print(self!.lbError.text ?? "NOTHING")
-                    self!.errorView.sizeToFit()
-                    self!.errorView.isHidden = false
+                    self.lbError.text = "Error: \(errorText)"
+                    self.errorView.sizeToFit()
+                    self.errorView.isHidden = false
                 }
-                self!.indicator.isHidden = true
+                self.indicator.isHidden = true
             }
         }.resume()
     }
-
-
 }
 
