@@ -1,6 +1,6 @@
 //
 //  SceneDelegate.swift
-//  ios
+//  iOS
 //
 //  Created by Johnny Console on 2026-01-26.
 //
