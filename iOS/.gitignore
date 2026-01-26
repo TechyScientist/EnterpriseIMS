@@ -76,3 +76,6 @@ fastlane/test_output
 
 # DS Store
 .DS_Store
+
+# User Interface State
+*.xcuserstate
