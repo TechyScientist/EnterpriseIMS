@@ -5,6 +5,7 @@
     <head>
         <title>IMS Web: Administration</title>
         <link rel="stylesheet" href="assets/style/main.css"/>
+        <link rel="icon" href="assets/img/icon.png"/>
         <style>
             div#horizontal {
                 display: grid;

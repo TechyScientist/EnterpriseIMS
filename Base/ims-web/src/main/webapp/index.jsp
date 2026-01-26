@@ -6,6 +6,7 @@
     <head>
         <title>IMS Web: Sign In</title>
         <link rel="stylesheet" type="text/css" href="assets/style/main.css">
+        <link rel="icon" href="assets/img/icon.png"/>
     </head>
     <body>
         <header>

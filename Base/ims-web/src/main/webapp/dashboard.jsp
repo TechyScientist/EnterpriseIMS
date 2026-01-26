@@ -4,6 +4,7 @@
     <head>
         <title>IMS Web: Dashboard</title>
         <link rel="stylesheet" href="assets/style/main.css"/>
+        <link rel="icon" href="assets/img/icon.png"/>
     </head>
     <body>
         <% User user = (User)(session.getAttribute("SignedInUser")); %>
