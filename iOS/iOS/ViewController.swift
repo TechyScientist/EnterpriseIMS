@@ -64,5 +64,9 @@ class ViewController: UIViewController {
             }
         }.resume()
     }
+    
+    @IBAction func signOut(_ segue: UIStoryboardSegue) {
+        
+    }
 }
 
