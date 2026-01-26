@@ -21,6 +21,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        tfUsername.text = UserDefaults.standard.string(forKey: "ims_username") ?? ""
     }
     
     @IBAction func onSignIn() {
@@ -39,6 +40,7 @@ class ViewController: UIViewController {
             DispatchQueue.main.async {
                 if(responseCode == StatusCode.OK) {
                     if let user = try? JSONDecoder().decode(User.self, from: self.userData!) {
+                        UserDefaults.standard.set(user.username, forKey: "ims_username")
                         self.tfPassword.text = ""
                         self.performSegue(withIdentifier: "ShowDashboard", sender: user)
                     }
