@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var lbWarning: UILabel!
     @IBOutlet weak var lbError: UILabel!
@@ -83,6 +83,17 @@ class ViewController: UIViewController {
             let destinationVC = segue.destination as! DashboardViewController
             destinationVC.with(sender as! User)
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if(textField == tfUsername) {
+            tfPassword.becomeFirstResponder()
+        }
+        else {
+            tfPassword.resignFirstResponder()
+            onSignIn()
+        }
+        return true
     }
 }
 
