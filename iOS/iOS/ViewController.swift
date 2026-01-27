@@ -64,11 +64,7 @@ class ViewController: UIViewController {
             }
         }.resume()
     }
-    
-    @IBAction func signOut(_ segue: UIStoryboardSegue) {
         
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "ShowDashboard") {
             let destinationVC = segue.destination as! DashboardViewController
