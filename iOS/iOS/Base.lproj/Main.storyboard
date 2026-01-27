@@ -5,7 +5,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -265,6 +264,9 @@
                                         <rect key="frame" x="0.0" y="83.666666666666686" width="333" height="0.0"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Administration"/>
+                                        <connections>
+                                            <action selector="onAdministration" destination="ITZ-MT-A5Y" eventType="touchUpInside" id="yHG-lj-7sd"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xMH-Nh-W7v">
                                         <rect key="frame" x="0.0" y="88.666666666666686" width="333" height="34.333333333333343"/>
@@ -296,6 +298,7 @@
                         <outlet property="btAdministration" destination="1fG-hx-NKC" id="OvW-mh-dlF"/>
                         <outlet property="lbUsername" destination="Qdc-NY-hor" id="JdO-U3-cdK"/>
                         <segue destination="24d-oc-9o2" kind="unwind" identifier="SignOut" unwindAction="signOut:" id="DHQ-DU-OgV"/>
+                        <segue destination="nSF-kQ-5wt" kind="presentation" identifier="ShowAdminDashboard" modalPresentationStyle="fullScreen" id="ao9-3c-ftx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XVa-DU-eTe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -303,20 +306,111 @@
             </objects>
             <point key="canvasLocation" x="985" y="131"/>
         </scene>
-        <!--View Controller-->
+        <!--Admin Dashboard View Controller-->
         <scene sceneID="AVA-XF-b9z">
             <objects>
-                <viewController id="nSF-kQ-5wt" sceneMemberID="viewController">
+                <viewController id="nSF-kQ-5wt" customClass="AdminDashboardViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rZs-HE-psQ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3qV-9J-2Xs">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="130"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IMS iOS: Administration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QbR-OF-dKu">
+                                        <rect key="frame" x="19.999999999999986" y="81.333333333333329" width="243.66666666666663" height="28.666666666666671"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" name="AccentColor"/>
+                                <constraints>
+                                    <constraint firstItem="QbR-OF-dKu" firstAttribute="top" secondItem="3qV-9J-2Xs" secondAttribute="top" constant="81.333333333333314" id="R50-YN-zCc"/>
+                                    <constraint firstAttribute="height" constant="130" id="VF9-DO-Qe5"/>
+                                    <constraint firstItem="QbR-OF-dKu" firstAttribute="leading" secondItem="3qV-9J-2Xs" secondAttribute="leading" constant="20" id="i0b-2Y-rJY"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="QbR-OF-dKu" secondAttribute="trailing" constant="20" symbolic="YES" id="vk7-iv-nqL"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3hj-00-L8N">
+                                <rect key="frame" x="9.9999999999999964" y="140" width="61.666666666666657" height="34.333333333333343"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Back"/>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="I4y-gr-XFZ">
+                                <rect key="frame" x="30" y="204.33333333333337" width="343" height="157"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Asset Management" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hr9-U9-7ui">
+                                        <rect key="frame" x="0.0" y="0.0" width="169.66666666666666" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cU8-IV-v16">
+                                        <rect key="frame" x="0.0" y="34" width="124.33333333333333" height="34.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Add an Asset"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P2h-Eg-GXg">
+                                        <rect key="frame" x="0.0" y="78.333333333333343" width="210" height="34.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Modify an Existing Asset"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h1J-dG-8jt">
+                                        <rect key="frame" x="0.0" y="122.66666666666664" width="206.66666666666666" height="34.333333333333329"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Delete an Existing Asset"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="60g-6k-PbL">
+                                <rect key="frame" x="30" y="391.33333333333331" width="343" height="156.99999999999994"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Management" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gDw-gT-c0b">
+                                        <rect key="frame" x="0.0" y="0.0" width="161.66666666666666" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZUD-xX-JCo">
+                                        <rect key="frame" x="0.0" y="34" width="214.33333333333334" height="34.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Provision a User Account"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bI0-H1-vP9">
+                                        <rect key="frame" x="0.0" y="78.333333333333371" width="270.66666666666669" height="34.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Modify an Existing User Account"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Pp-tQ-V7W">
+                                        <rect key="frame" x="0.0" y="122.66666666666667" width="267.33333333333331" height="34.333333333333329"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Delete an Existing User Account"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="dvl-tp-8Z9"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="Background"/>
+                        <constraints>
+                            <constraint firstItem="I4y-gr-XFZ" firstAttribute="top" secondItem="3hj-00-L8N" secondAttribute="bottom" constant="30" id="77R-MR-VnY"/>
+                            <constraint firstItem="60g-6k-PbL" firstAttribute="top" secondItem="I4y-gr-XFZ" secondAttribute="bottom" constant="30" id="Aiy-09-JmX"/>
+                            <constraint firstItem="3qV-9J-2Xs" firstAttribute="trailing" secondItem="dvl-tp-8Z9" secondAttribute="trailing" id="Gmi-VN-do6"/>
+                            <constraint firstItem="dvl-tp-8Z9" firstAttribute="trailing" secondItem="I4y-gr-XFZ" secondAttribute="trailing" constant="20" id="GyK-EU-xFC"/>
+                            <constraint firstItem="60g-6k-PbL" firstAttribute="leading" secondItem="dvl-tp-8Z9" secondAttribute="leading" constant="30" id="HL7-ND-EpZ"/>
+                            <constraint firstItem="3qV-9J-2Xs" firstAttribute="leading" secondItem="dvl-tp-8Z9" secondAttribute="leading" id="IuH-Pe-ToT"/>
+                            <constraint firstItem="dvl-tp-8Z9" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="3hj-00-L8N" secondAttribute="trailing" symbolic="YES" id="RPT-7x-T1g"/>
+                            <constraint firstItem="I4y-gr-XFZ" firstAttribute="leading" secondItem="dvl-tp-8Z9" secondAttribute="leading" constant="30" id="YkA-DV-uDt"/>
+                            <constraint firstItem="3qV-9J-2Xs" firstAttribute="top" secondItem="rZs-HE-psQ" secondAttribute="top" id="h1F-7Z-u5D"/>
+                            <constraint firstItem="3hj-00-L8N" firstAttribute="leading" secondItem="dvl-tp-8Z9" secondAttribute="leading" constant="10" id="ibG-Xw-fNe"/>
+                            <constraint firstItem="3hj-00-L8N" firstAttribute="top" secondItem="3qV-9J-2Xs" secondAttribute="bottom" constant="10" id="wfl-qL-g7a"/>
+                            <constraint firstItem="dvl-tp-8Z9" firstAttribute="trailing" secondItem="60g-6k-PbL" secondAttribute="trailing" constant="20" id="yMr-FB-fsn"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hi6-Gy-z3s" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="138" y="868"/>
+            <point key="canvasLocation" x="984" y="830"/>
         </scene>
     </scenes>
     <resources>
@@ -332,8 +426,5 @@
         <namedColor name="Warning">
             <color red="0.90196078431372551" green="0.72156862745098038" blue="0.28235294117647058" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

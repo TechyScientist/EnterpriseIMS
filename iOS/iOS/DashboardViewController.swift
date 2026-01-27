@@ -24,7 +24,6 @@ class DashboardViewController: UIViewController {
             adminBadge.isHidden = false
             btAdministration.isHidden = false
         }
-        
     }
     
     func with(_ initUser: User) {
@@ -38,6 +37,17 @@ class DashboardViewController: UIViewController {
             self.performSegue(withIdentifier: "SignOut", sender: nil)
         }))
         present(controller, animated: true)
+    }
+    
+    @IBAction func onAdministration() {
+        performSegue(withIdentifier: "ShowAdminDashboard", sender: user)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "ShowAdminDashboard") {
+            let destinationVC = segue.destination as! AdminDashboardViewController
+            destinationVC.with(sender as! User)
+        }
     }
 }
 
