@@ -17,4 +17,14 @@
     <string name="confirm_sign_out_message">Are you sure you want to sign out?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="admin_header">IMS Android: Administration</string>
+    <string name="back">Back</string>
+    <string name="asset_management">Asset Management</string>
+    <string name="add_asset">Add an Asset</string>
+    <string name="edit_asset">Modify an Existing Asset</string>
+    <string name="delete_asset">Delete an Existing Asset</string>
+    <string name="user_management">User Management</string>
+    <string name="provision_user">Provision a User Account</string>
+    <string name="edit_user">Modify an Existing User Account</string>
+    <string name="delete_user">Delete an Existing User Account</string>
 </resources>
