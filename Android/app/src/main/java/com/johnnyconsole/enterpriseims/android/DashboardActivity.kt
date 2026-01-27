@@ -2,6 +2,7 @@ package com.johnnyconsole.enterpriseims.android
 
 import android.content.DialogInterface.BUTTON_NEGATIVE
 import android.content.DialogInterface.BUTTON_POSITIVE
+import android.content.Intent
 import android.os.Bundle
 import android.view.View.VISIBLE
 import androidx.activity.enableEdgeToEdge
@@ -34,6 +35,13 @@ class DashboardActivity : AppCompatActivity() {
             if(intent.getBooleanExtra("administrator", false)) {
                 tvAdminBadge.visibility = VISIBLE
                 btAdministration.visibility = VISIBLE
+
+                btAdministration.setOnClickListener {_ ->
+                    startActivity(
+                        Intent(this@DashboardActivity, AdminDashboardActivity::class.java)
+                            .putExtras(intent)
+                    )
+                }
             }
 
             btSignOut.setOnClickListener { _ ->
@@ -51,4 +59,6 @@ class DashboardActivity : AppCompatActivity() {
 
         }
     }
+
+    //TODO: Add listener for back button pressed and execute the sign out confirmation
 }
