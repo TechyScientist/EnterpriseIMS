@@ -23,6 +23,11 @@ class AdminDashboardActivity : AppCompatActivity() {
                 insets
             }
 
+
+            btBack.setOnClickListener { _ ->
+                finish()
+            }
+
         }
     }
 }
