@@ -170,7 +170,7 @@
                         <outlet property="lbError" destination="zwV-OI-ghb" id="6O3-0y-5iN"/>
                         <outlet property="tfPassword" destination="Ycv-Wi-rCg" id="dfE-ta-NpF"/>
                         <outlet property="tfUsername" destination="TdI-8S-v0Z" id="tnN-fW-JGI"/>
-                        <segue destination="ITZ-MT-A5Y" kind="presentation" identifier="ShowDashboard" modalPresentationStyle="fullScreen" id="GNE-By-m1n"/>
+                        <segue destination="ITZ-MT-A5Y" kind="presentation" identifier="ShowDashboard" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="GNE-By-m1n"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -297,12 +297,10 @@
                         <outlet property="adminBadge" destination="dA8-dB-ZBS" id="X4q-3n-mFK"/>
                         <outlet property="btAdministration" destination="1fG-hx-NKC" id="OvW-mh-dlF"/>
                         <outlet property="lbUsername" destination="Qdc-NY-hor" id="JdO-U3-cdK"/>
-                        <segue destination="24d-oc-9o2" kind="unwind" identifier="SignOut" unwindAction="signOut:" id="DHQ-DU-OgV"/>
-                        <segue destination="nSF-kQ-5wt" kind="presentation" identifier="ShowAdminDashboard" modalPresentationStyle="fullScreen" id="ao9-3c-ftx"/>
+                        <segue destination="nSF-kQ-5wt" kind="presentation" identifier="ShowAdminDashboard" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="ao9-3c-ftx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XVa-DU-eTe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="24d-oc-9o2" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="985" y="131"/>
         </scene>
@@ -336,54 +334,57 @@
                                 <rect key="frame" x="9.9999999999999964" y="140" width="61.666666666666657" height="34.333333333333343"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Back"/>
+                                <connections>
+                                    <action selector="onBack" destination="nSF-kQ-5wt" eventType="touchUpInside" id="zXf-Ay-Xik"/>
+                                </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="I4y-gr-XFZ">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="I4y-gr-XFZ">
                                 <rect key="frame" x="30" y="204.33333333333337" width="343" height="157"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Asset Management" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hr9-U9-7ui">
-                                        <rect key="frame" x="0.0" y="0.0" width="169.66666666666666" height="24"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cU8-IV-v16">
-                                        <rect key="frame" x="0.0" y="34" width="124.33333333333333" height="34.333333333333343"/>
+                                        <rect key="frame" x="0.0" y="34" width="343" height="34.333333333333343"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Add an Asset"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P2h-Eg-GXg">
-                                        <rect key="frame" x="0.0" y="78.333333333333343" width="210" height="34.333333333333343"/>
+                                        <rect key="frame" x="0.0" y="78.333333333333343" width="343" height="34.333333333333343"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Modify an Existing Asset"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h1J-dG-8jt">
-                                        <rect key="frame" x="0.0" y="122.66666666666664" width="206.66666666666666" height="34.333333333333329"/>
+                                        <rect key="frame" x="0.0" y="122.66666666666664" width="343" height="34.333333333333329"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Delete an Existing Asset"/>
                                     </button>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="60g-6k-PbL">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="60g-6k-PbL">
                                 <rect key="frame" x="30" y="391.33333333333331" width="343" height="156.99999999999994"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Management" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gDw-gT-c0b">
-                                        <rect key="frame" x="0.0" y="0.0" width="161.66666666666666" height="24"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZUD-xX-JCo">
-                                        <rect key="frame" x="0.0" y="34" width="214.33333333333334" height="34.333333333333343"/>
+                                        <rect key="frame" x="0.0" y="34" width="343" height="34.333333333333343"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Provision a User Account"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bI0-H1-vP9">
-                                        <rect key="frame" x="0.0" y="78.333333333333371" width="270.66666666666669" height="34.333333333333343"/>
+                                        <rect key="frame" x="0.0" y="78.333333333333371" width="343" height="34.333333333333343"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Modify an Existing User Account"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Pp-tQ-V7W">
-                                        <rect key="frame" x="0.0" y="122.66666666666667" width="267.33333333333331" height="34.333333333333329"/>
+                                        <rect key="frame" x="0.0" y="122.66666666666667" width="343" height="34.333333333333329"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Delete an Existing User Account"/>
                                     </button>
