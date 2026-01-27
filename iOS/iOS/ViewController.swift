@@ -9,6 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var lbWarning: UILabel!
     @IBOutlet weak var lbError: UILabel!
     @IBOutlet weak var errorView: UIView!
     @IBOutlet weak var tfUsername: UITextField!
@@ -21,6 +22,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        let attributedWarning = NSMutableAttributedString(
+            string: "Warning",
+            attributes: [.font: UIFont.boldSystemFont(ofSize: CGFloat(17))]
+        )
+        attributedWarning.append(NSAttributedString(
+            string: ": Access to IMS iOS is restricted to authorized users only. Please sign in to continue.",
+            attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+        lbWarning.attributedText = attributedWarning
         tfUsername.text = UserDefaults.standard.string(forKey: "ims_username") ?? ""
     }
     
@@ -45,7 +54,9 @@ class ViewController: UIViewController {
                         self.performSegue(withIdentifier: "ShowDashboard", sender: user)
                     }
                     else {
-                        self.lbError.text = "Error: Could not parse user data."
+                        let attributedError = NSMutableAttributedString(string: "Error", attributes: [.font: UIFont.boldSystemFont(ofSize: CGFloat(17))])
+                        attributedError.append(NSAttributedString(string: ": Could not parse user data.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+                        self.lbError.attributedText = attributedError
                         self.errorView.sizeToFit()
                         self.errorView.isHidden = false
                     }
@@ -56,7 +67,9 @@ class ViewController: UIViewController {
                         case StatusCode.BAD_REQUEST: "Missing credentials, please try again."
                         default: "Unexpected HTTP response code: \(responseCode)."
                     }
-                    self.lbError.text = "Error: \(errorText)"
+                    let attributedError = NSMutableAttributedString(string: "Error", attributes: [.font: UIFont.boldSystemFont(ofSize: CGFloat(17))])
+                    attributedError.append(NSAttributedString(string: ": \(errorText)", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+                    self.lbError.attributedText = attributedError
                     self.errorView.sizeToFit()
                     self.errorView.isHidden = false
                 }

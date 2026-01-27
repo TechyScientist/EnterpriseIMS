@@ -40,7 +40,7 @@
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OIR-9a-kqr">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="128"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Warning: Access to IMS iOS is restricted to authorized users only. Please sign in to continue." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yh3-4e-aLB">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yh3-4e-aLB">
                                                 <rect key="frame" x="10" y="10" width="333" height="108"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -168,6 +168,7 @@
                         <outlet property="errorView" destination="cSq-Ml-QN5" id="fpf-rm-RuO"/>
                         <outlet property="indicator" destination="plz-ib-KNL" id="mDF-nT-g5h"/>
                         <outlet property="lbError" destination="zwV-OI-ghb" id="6O3-0y-5iN"/>
+                        <outlet property="lbWarning" destination="Yh3-4e-aLB" id="3Sx-dh-5wi"/>
                         <outlet property="tfPassword" destination="Ycv-Wi-rCg" id="dfE-ta-NpF"/>
                         <outlet property="tfUsername" destination="TdI-8S-v0Z" id="tnN-fW-JGI"/>
                         <segue destination="ITZ-MT-A5Y" kind="presentation" identifier="ShowDashboard" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="GNE-By-m1n"/>
