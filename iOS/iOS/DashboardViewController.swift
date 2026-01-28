@@ -33,9 +33,9 @@ class DashboardViewController: UIViewController {
     @IBAction func onSignOut() {
         let controller = UIAlertController(title: "Confirm Sign Out", message: "Are you sure you want to sign out?", preferredStyle: .alert)
         controller.addAction(UIAlertAction(title: "No", style: .cancel))
-        controller.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { _ in
+        controller.addAction(UIAlertAction(title: "Yes", style: .destructive) { _ in
             self.dismiss(animated: true)
-        }))
+        })
         present(controller, animated: true)
     }
     
