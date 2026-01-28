@@ -6,7 +6,7 @@
 //
 import UIKit
 
-class AddUserViewController: UIViewController {
+class AddUserViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var tfUsername: UITextField!
     @IBOutlet weak var tfName: UITextField!
@@ -45,5 +45,21 @@ class AddUserViewController: UIViewController {
     
     @IBAction func onSelectNonAdmin() {
         isUserAdmin = false
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if(textField == tfUsername) {
+            tfName.becomeFirstResponder()
+        }
+        else if(textField == tfName) {
+            tfPassword.becomeFirstResponder()
+        }
+        else if(textField == tfPassword) {
+            tfConfirmPassword.becomeFirstResponder()
+        }
+        else {
+            tfConfirmPassword.resignFirstResponder()
+        }
+        return true
     }
 }

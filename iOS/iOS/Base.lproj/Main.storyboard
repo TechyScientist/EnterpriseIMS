@@ -532,6 +532,9 @@
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <outlet property="delegate" destination="OVL-jS-0dV" id="W6f-5G-Mcl"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                     </stackView>
@@ -554,6 +557,9 @@
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <outlet property="delegate" destination="OVL-jS-0dV" id="Gfl-Mp-fOS"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                     </stackView>
@@ -576,6 +582,9 @@
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <outlet property="delegate" destination="OVL-jS-0dV" id="W2t-x6-txT"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                     </stackView>
@@ -598,6 +607,9 @@
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <outlet property="delegate" destination="OVL-jS-0dV" id="5NY-lU-Hhx"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                     </stackView>
