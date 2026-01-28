@@ -385,6 +385,9 @@
                                         <rect key="frame" x="0.0" y="34" width="343" height="34.333333333333343"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Provision a User Account"/>
+                                        <connections>
+                                            <action selector="onAddUser" destination="nSF-kQ-5wt" eventType="touchUpInside" id="v52-rg-fcZ"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bI0-H1-vP9">
                                         <rect key="frame" x="0.0" y="78.333333333333371" width="343" height="34.333333333333343"/>
@@ -417,7 +420,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <segue destination="OVL-jS-0dV" kind="presentation" identifier="ShowAddUser" modalPresentationStyle="fullScreen" id="eF6-6w-TaN"/>
+                        <segue destination="OVL-jS-0dV" kind="presentation" identifier="ShowAddUser" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="eF6-6w-TaN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hi6-Gy-z3s" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -456,6 +459,7 @@
                                 <buttonConfiguration key="configuration" style="filled" title="Back"/>
                                 <connections>
                                     <action selector="onBack" destination="nSF-kQ-5wt" eventType="touchUpInside" id="LYh-PQ-VHO"/>
+                                    <action selector="onBack" destination="OVL-jS-0dV" eventType="touchUpInside" id="PlA-5p-FQA"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="7rL-aN-yov">
@@ -561,12 +565,21 @@
                                             <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4lW-xO-Lad">
                                                 <rect key="frame" x="231" y="0.0" width="102" height="30"/>
                                                 <menu key="menu" id="g5x-D6-Jdb">
+                                                    <menuOptions key="menuOptions" singleSelection="YES"/>
                                                     <children>
-                                                        <command title="No" menuElementState="on" id="3UK-58-FRH"/>
-                                                        <command title="Yes" id="zek-sb-4f9"/>
+                                                        <command title="No" menuElementState="on" id="3UK-58-FRH">
+                                                            <connections>
+                                                                <action selector="onSelectNonAdmin" destination="3GB-M1-oT0" id="Skl-oF-NHO"/>
+                                                            </connections>
+                                                        </command>
+                                                        <command title="Yes" id="zek-sb-4f9">
+                                                            <connections>
+                                                                <action selector="onSelectAdmin" destination="3GB-M1-oT0" id="BtN-Z9-hi5"/>
+                                                            </connections>
+                                                        </command>
                                                     </children>
                                                 </menu>
-                                                <state key="normal" title="Button">
+                                                <state key="normal">
                                                     <color key="titleColor" name="AccentColor"/>
                                                 </state>
                                             </button>
@@ -576,6 +589,9 @@
                                         <rect key="frame" x="0.0" y="205.99999999999997" width="333" height="34.333333333333343"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Submit"/>
+                                        <connections>
+                                            <action selector="onSubmit" destination="OVL-jS-0dV" eventType="touchUpInside" id="lHB-Yh-Kl2"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -656,6 +672,13 @@
                             <constraint firstItem="Lup-NY-Uw7" firstAttribute="trailing" secondItem="JlO-pn-T2o" secondAttribute="trailing" constant="30" id="uX2-pI-jhW"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="indicator" destination="5ad-pS-sDp" id="9Vh-7C-3pa"/>
+                        <outlet property="tfConfirmPassword" destination="UMD-xx-lHj" id="qXR-h5-9oM"/>
+                        <outlet property="tfName" destination="WPt-AB-mUK" id="0xA-B3-x3O"/>
+                        <outlet property="tfPassword" destination="h97-kj-JIi" id="5Ij-ZY-woW"/>
+                        <outlet property="tfUsername" destination="VwQ-38-3cJ" id="7Bp-wn-68g"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3GB-M1-oT0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
