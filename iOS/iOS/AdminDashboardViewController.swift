@@ -22,5 +22,16 @@ class AdminDashboardViewController: UIViewController {
     @IBAction func onBack() {
         dismiss(animated: true)
     }
+    
+    @IBAction func onAddUser() {
+        performSegue(withIdentifier: "ShowAddUser", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "ShowAddUser") {
+            let destinationVC = segue.destination as! AddUserViewController
+            destinationVC.with(user!)
+        }
+    }
 }
 
