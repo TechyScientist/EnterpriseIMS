@@ -55,7 +55,7 @@ class AddUserViewController: UIViewController, UITextFieldDelegate {
             
             DispatchQueue.main.async {
                 self.indicator.isHidden = true
-                if(responseCode == StatusCode.CREATED) {
+                if(responseCode == CREATED) {
                     self.successView.isHidden = false
                     self.lbSuccess.attributedText = NSAttributedString(string: "User \(self.tfUsername.text!) added successfully.", attributes: [.font: UIFont.boldSystemFont(ofSize: CGFloat(17))])
                     self.tfUsername.text = ""
@@ -68,21 +68,21 @@ class AddUserViewController: UIViewController, UITextFieldDelegate {
                 else {
                     let errorText = NSMutableAttributedString(string: "Error", attributes: [.font: UIFont.boldSystemFont(ofSize: CGFloat(17))])
                     
-                    if(responseCode == StatusCode.BAD_REQUEST) {
+                    if(responseCode == BAD_REQUEST) {
                         errorText.append(NSAttributedString(string: ": Missing or empty parameter, please try again.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
                     }
                     // theoretically should never happen if you got this far...
-                    else if(responseCode == StatusCode.NOT_FOUND) {
+                    else if(responseCode == NOT_FOUND) {
                         errorText.append(NSAttributedString(string: ": User \(self.user!.username) not found.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
                     }
                     // theoretically should never happen if you got this far...
-                    else if(responseCode == StatusCode.UNAUTHORIZED) {
+                    else if(responseCode == UNAUTHORIZED) {
                         errorText.append(NSAttributedString(string: ": User \(self.user!.username) is not an administrator.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
                     }
-                    else if(responseCode == StatusCode.CONFLICT) {
+                    else if(responseCode == CONFLICT) {
                         errorText.append(NSAttributedString(string: ": User \(self.tfUsername.text!.lowercased()) already exists, please try a different username.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
                     }
-                    else if(responseCode == StatusCode.UNPROCESSABLE) {
+                    else if(responseCode == UNPROCESSABLE) {
                         errorText.append(NSAttributedString(string: ": Your passwords do not match, please try again.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
                     }
                     else {

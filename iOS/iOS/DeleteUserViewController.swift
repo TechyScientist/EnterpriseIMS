@@ -33,7 +33,7 @@ class DeleteUserViewController: UIViewController {
             let responseCode = (response as! HTTPURLResponse).statusCode
             
             DispatchQueue.main.async { [self] in
-                if responseCode == StatusCode.OK, let data = data {
+                if responseCode == OK, let data = data {
                     self.users = try! JSONDecoder().decode([User].self, from: data)
                     
                     if(!self.users.isEmpty) {
@@ -73,7 +73,22 @@ class DeleteUserViewController: UIViewController {
     }
     
     @IBAction func onSubmit() {
-        
+        var username = btUserSelect.title(for: .normal)!
+        username = username[username.firstIndex(of: "(")!...username.firstIndex(of: ")")!].lowercased()
+        var request = URLRequest(url: URL(string: "https://wildfly.johnnyconsole.com:8443/ims/api/user/delete")!)
+        request.httpMethod = "POST"
+        request.httpBody = "username=\(username)&auth-user=\(admin!.username)".data(using: .utf8)
+        let session = URLSession(configuration: .default)
+        session.dataTask(with: request) { [self] _, response, _ in
+            let responseCode = (response as! HTTPURLResponse).statusCode
+            
+            DispatchQueue.main.async {
+                if(responseCode == ACCEPTED) {
+                    //TODO: Display success message
+                }
+                //TODO: Handle error codes thrown by the API
+            }
+        }.resume()
     }
     
     @IBAction func onBack() {

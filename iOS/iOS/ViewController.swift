@@ -43,7 +43,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let responseCode = (response as! HTTPURLResponse).statusCode
             
             DispatchQueue.main.async {
-                if(responseCode == StatusCode.OK) {
+                if(responseCode == OK) {
                     if let user = try? JSONDecoder().decode(User.self, from: data!) {
                         UserDefaults.standard.set(user.username, forKey: "ims_username")
                         self.tfPassword.text = ""
@@ -59,8 +59,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 }
                 else {
                     let errorText = switch(responseCode) {
-                        case StatusCode.UNAUTHORIZED: "Invalid credentials, please try again."
-                        case StatusCode.BAD_REQUEST: "Missing credentials, please try again."
+                        case UNAUTHORIZED: "Invalid credentials, please try again."
+                        case BAD_REQUEST: "Missing credentials, please try again."
                         default: "Unexpected HTTP response code: \(responseCode)."
                     }
                     let attributedError = NSMutableAttributedString(string: "Error", attributes: [.font: UIFont.boldSystemFont(ofSize: CGFloat(17))])
