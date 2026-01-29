@@ -77,6 +77,6 @@ class DeleteUserViewController: UIViewController {
     }
     
     @IBAction func onBack() {
-        
+        dismiss(animated: true)
     }
 }
