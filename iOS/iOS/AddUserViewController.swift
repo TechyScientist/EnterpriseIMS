@@ -16,7 +16,6 @@ class AddUserViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var tfName: UITextField!
     @IBOutlet weak var tfPassword: UITextField!
     @IBOutlet weak var tfConfirmPassword: UITextField!
-    @IBOutlet var menuIsAdmin: [UICommand]!
     @IBOutlet weak var btIsAdmin: UIButton!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
@@ -63,13 +62,11 @@ class AddUserViewController: UIViewController, UITextFieldDelegate {
                     self.tfName.text = ""
                     self.tfPassword.text = ""
                     self.tfConfirmPassword.text = ""
-                    
-                    //FIXME: Does not change the active item
-                    self.menuIsAdmin.forEach { item in
-                        item.state = .off
+                    self.btIsAdmin.menu!.children.forEach {item in
+                        (item as! UICommand).state = .off
                     }
-                    self.menuIsAdmin.first!.state = .on
-                    self.btIsAdmin.setTitle(self.menuIsAdmin.first!.title, for: .normal)
+                    (self.btIsAdmin.menu!.children.first as! UICommand).state = .on
+                    self.isUserAdmin = false
                 }
                 else {
                     let errorText = NSMutableAttributedString(string: "Error", attributes: [.font: UIFont.boldSystemFont(ofSize: CGFloat(17))])

@@ -687,8 +687,6 @@
                         <outlet property="tfName" destination="WPt-AB-mUK" id="0xA-B3-x3O"/>
                         <outlet property="tfPassword" destination="h97-kj-JIi" id="5Ij-ZY-woW"/>
                         <outlet property="tfUsername" destination="VwQ-38-3cJ" id="7Bp-wn-68g"/>
-                        <outletCollection property="menuIsAdmin" destination="3UK-58-FRH" collectionClass="NSMutableArray" id="cyL-aS-Gw8"/>
-                        <outletCollection property="menuIsAdmin" destination="zek-sb-4f9" collectionClass="NSMutableArray" id="wPX-jF-JgF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3GB-M1-oT0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
