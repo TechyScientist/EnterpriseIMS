@@ -16,8 +16,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var tfPassword: UITextField!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
-    private var userData: Data?
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,14 +39,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpBody = "username=\(tfUsername.text ?? "")&password=\(tfPassword.text ?? "")".data(using: .utf8)
         let session = URLSession(configuration: .default)
-        session.dataTask(with: request) { [self] data, response, error in
+        session.dataTask(with: request) { [self] data, response, _ in
             let responseCode = (response as! HTTPURLResponse).statusCode
-            if(responseCode == StatusCode.OK) {
-                userData = data
-            }
+            
             DispatchQueue.main.async {
                 if(responseCode == StatusCode.OK) {
-                    if let user = try? JSONDecoder().decode(User.self, from: self.userData!) {
+                    if let user = try? JSONDecoder().decode(User.self, from: data!) {
                         UserDefaults.standard.set(user.username, forKey: "ims_username")
                         self.tfPassword.text = ""
                         self.performSegue(withIdentifier: "ShowDashboard", sender: user)
