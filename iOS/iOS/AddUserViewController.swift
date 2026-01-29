@@ -8,10 +8,15 @@ import UIKit
 
 class AddUserViewController: UIViewController, UITextFieldDelegate {
     
+    @IBOutlet weak var successView: UIView!
+    @IBOutlet weak var errorView: UIView!
+    @IBOutlet weak var lbSuccess: UILabel!
+    @IBOutlet weak var lbError: UILabel!
     @IBOutlet weak var tfUsername: UITextField!
     @IBOutlet weak var tfName: UITextField!
     @IBOutlet weak var tfPassword: UITextField!
     @IBOutlet weak var tfConfirmPassword: UITextField!
+    @IBOutlet weak var menuIsAdmin: UIMenu!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     private var user: User?
@@ -36,7 +41,63 @@ class AddUserViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func onSubmit() {
+        indicator.isHidden = false
+        errorView.isHidden = true
+        successView.isHidden = true
         
+        var request = URLRequest(url: URL(string: "https://wildfly.johnnyconsole.com:8443/ims/api/user/add")!)
+        request.httpMethod = "POST"
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.httpBody = "username=\(tfUsername.text ?? "")&name=\(tfName.text ?? "")&password=\(tfPassword.text ?? "")&confirm-password=\(tfConfirmPassword.text ?? "")&is-admin=\(isUserAdmin)&auth-user=\(user!.username)".data(using: .utf8)
+        let session = URLSession(configuration: .default)
+        session.dataTask(with: request) {[self] _, response, _ in
+            let responseCode = (response as! HTTPURLResponse).statusCode
+            
+            DispatchQueue.main.async {
+                self.indicator.isHidden = true
+                if(responseCode == StatusCode.CREATED) {
+                    self.successView.isHidden = false
+                    self.lbSuccess.attributedText = NSAttributedString(string: "User \(self.tfUsername.text!) added successfully.", attributes: [.font: UIFont.boldSystemFont(ofSize: CGFloat(17))])
+                    self.tfUsername.text = ""
+                    self.tfName.text = ""
+                    self.tfPassword.text = ""
+                    self.tfConfirmPassword.text = ""
+                    //FIXME: This causes a nil exception for some reason
+                    /* self.menuIsAdmin.children.forEach { item in
+                        (item as! UICommand).state = .off
+                    }
+                    (self.menuIsAdmin.children.first! as! UICommand).state = .on*/
+                    
+                }
+                else {
+                    let errorText = NSMutableAttributedString(string: "Error", attributes: [.font: UIFont.boldSystemFont(ofSize: CGFloat(17))])
+                    
+                    if(responseCode == StatusCode.BAD_REQUEST) {
+                        errorText.append(NSAttributedString(string: ": Missing or empty parameter, please try again.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+                    }
+                    // theoretically should never happen if you got this far...
+                    else if(responseCode == StatusCode.NOT_FOUND) {
+                        errorText.append(NSAttributedString(string: ": User \(self.user!.username) not found.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+                    }
+                    // theoretically should never happen if you got this far...
+                    else if(responseCode == StatusCode.UNAUTHORIZED) {
+                        errorText.append(NSAttributedString(string: ": User \(self.user!.username) is not an administrator.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+                    }
+                    else if(responseCode == StatusCode.CONFLICT) {
+                        errorText.append(NSAttributedString(string: ": User \(self.tfUsername.text!) already exists, please try a different username.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+                    }
+                    else if(responseCode == StatusCode.UNPROCESSABLE) {
+                        errorText.append(NSAttributedString(string: ": Your passwords do not match, please try again.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+                    }
+                    else {
+                        errorText.append(NSAttributedString(string: ": Unexpected HTTP response code: \(responseCode). ", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+                    }
+                    self.errorView.isHidden = false
+                    self.lbError.attributedText = errorText
+                }
+                self.indicator.isHidden = true
+            }
+        }.resume()
     }
     
     @IBAction func onSelectAdmin() {

@@ -677,7 +677,12 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="errorView" destination="cVk-uD-7Up" id="UKC-JL-UZf"/>
                         <outlet property="indicator" destination="5ad-pS-sDp" id="9Vh-7C-3pa"/>
+                        <outlet property="lbError" destination="kco-NJ-n3U" id="szG-4b-RiA"/>
+                        <outlet property="lbSuccess" destination="b8g-p5-rJG" id="LUr-k4-hKC"/>
+                        <outlet property="menuIsAdmin" destination="g5x-D6-Jdb" id="hcK-qz-oXt"/>
+                        <outlet property="successView" destination="JlO-pn-T2o" id="mac-2y-aEi"/>
                         <outlet property="tfConfirmPassword" destination="UMD-xx-lHj" id="qXR-h5-9oM"/>
                         <outlet property="tfName" destination="WPt-AB-mUK" id="0xA-B3-x3O"/>
                         <outlet property="tfPassword" destination="h97-kj-JIi" id="5Ij-ZY-woW"/>
