@@ -27,9 +27,17 @@ class AdminDashboardViewController: UIViewController {
         performSegue(withIdentifier: "ShowAddUser", sender: nil)
     }
     
+    @IBAction func onDeleteUser() {
+        performSegue(withIdentifier: "ShowDeleteUser", sender: nil)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "ShowAddUser") {
             let destinationVC = segue.destination as! AddUserViewController
+            destinationVC.with(user!)
+        }
+        else if(segue.identifier == "ShowDeleteUser") {
+            let destinationVC = segue.destination as! DeleteUserViewController
             destinationVC.with(user!)
         }
     }
