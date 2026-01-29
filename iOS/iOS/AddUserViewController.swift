@@ -62,9 +62,6 @@ class AddUserViewController: UIViewController, UITextFieldDelegate {
                     self.tfName.text = ""
                     self.tfPassword.text = ""
                     self.tfConfirmPassword.text = ""
-                    self.btIsAdmin.menu!.children.forEach {item in
-                        (item as! UICommand).state = .off
-                    }
                     (self.btIsAdmin.menu!.children.first as! UICommand).state = .on
                     self.isUserAdmin = false
                 }
