@@ -36,7 +36,24 @@ class DeleteUserViewController: UIViewController {
             
             DispatchQueue.main.async { [self] in
                 guard responseCode != OK, let data = data else {
-                    //TODO: Implement error checking from API response codes
+                    let errorText = NSMutableAttributedString(string: "Error", attributes: [.font: UIFont.boldSystemFont(ofSize: CGFloat(17))])
+                    if(responseCode == BAD_REQUEST) {
+                        errorText.append(NSAttributedString(string: ": Missing or empty parameter, please try again.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+                    }
+                    // theoretically should never happen if you got this far...
+                    else if(responseCode == NOT_FOUND) {
+                        errorText.append(NSAttributedString(string: ": User \(self.admin!.username) is not found.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+
+                    }
+                    // theoretically should never happen if you got this far...
+                    else if(responseCode == UNAUTHORIZED) {
+                        errorText.append(NSAttributedString(string: ": User \(self.admin!.username) is not an administrator.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+                    }
+                    else {
+                        errorText.append(NSAttributedString(string: ": Unexpected HTTP Response Code: \(responseCode)", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+                    }
+                    self.errorView.isHidden = false
+                    self.lbError.attributedText = errorText
                     return
                 }
                 self.users = try! JSONDecoder().decode([User].self, from: data)
@@ -96,7 +113,25 @@ class DeleteUserViewController: UIViewController {
                     self.successView.isHidden = false
                     self.lbSuccess.attributedText = NSAttributedString(string: "The user \(username) was deleted successfully.", attributes: [.font: UIFont.boldSystemFont(ofSize: CGFloat(17))])
                 } else {
-                    //TODO: Handle error codes thrown by the API
+                    let errorText = NSMutableAttributedString(string: "Error", attributes: [.font: UIFont.boldSystemFont(ofSize: CGFloat(17))])
+                    if(responseCode == BAD_REQUEST) {
+                        errorText.append(NSAttributedString(string: ": Missing or empty parameter, please try again.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+                    }
+                    // theoretically should never happen if you got this far...
+                    else if(responseCode == NOT_FOUND) {
+                        errorText.append(NSAttributedString(string: ": User \(username) is not found.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+
+                    }
+                    // theoretically should never happen if you got this far...
+                    else if(responseCode == UNAUTHORIZED) {
+                        errorText.append(NSAttributedString(string: ": User \(self.admin!.username) is not an administrator.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+                    }
+                    else {
+                        errorText.append(NSAttributedString(string: ": Unexpected HTTP Response Code: \(responseCode)", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
+                    }
+                    
+                    self.errorView.isHidden = false
+                    self.lbError.attributedText = errorText
                 }
                 self.indicator.isHidden = true
             }
