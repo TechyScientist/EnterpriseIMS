@@ -832,6 +832,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btSubmit" destination="IIy-S8-2dE" id="J74-Ii-saX"/>
                         <outlet property="btUserSelect" destination="vek-Wq-Psi" id="IXg-rx-KKy"/>
                         <outlet property="errorView" destination="fBM-HL-2HP" id="CEQ-0I-bAb"/>
                         <outlet property="indicator" destination="XEB-0Z-hlr" id="lg0-1W-WZg"/>
