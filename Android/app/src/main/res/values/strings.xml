@@ -39,4 +39,5 @@
     </string-array>
     <string name="confirm_exit_message">Are you sure you want to exit? Your changes will be lost.</string>
     <string name="submit">Submit</string>
+    <string name="delete_user_header">IMS Android: Delete a User</string>
 </resources>
