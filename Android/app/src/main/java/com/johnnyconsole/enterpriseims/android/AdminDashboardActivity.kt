@@ -31,6 +31,13 @@ class AdminDashboardActivity : AppCompatActivity() {
                 )
             }
 
+            btDeleteUser.setOnClickListener { _ ->
+                startActivity(
+                    Intent(this@AdminDashboardActivity, DeleteUserActivity::class.java)
+                        .putExtras(intent)
+                )
+            }
+
             btBack.setOnClickListener { _ ->
                 finish()
             }
