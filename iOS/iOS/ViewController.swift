@@ -15,6 +15,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var tfUsername: UITextField!
     @IBOutlet weak var tfPassword: UITextField!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
+    @IBOutlet weak var btSubmit: UIButton!
     
     
     override func viewDidLoad() {
@@ -34,6 +35,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBAction func onSignIn() {
         errorView.isHidden = true
         indicator.isHidden = false
+        btSubmit.isEnabled = false
+        
         var request = URLRequest(url: URL(string: "https://wildfly.johnnyconsole.com:8443/ims/api/auth/sign-in")!)
         request.httpMethod = "POST"
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -70,6 +73,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     self.errorView.isHidden = false
                 }
                 self.indicator.isHidden = true
+                self.btSubmit.isEnabled = true
             }
         }.resume()
     }

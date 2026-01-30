@@ -172,6 +172,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btSubmit" destination="kLc-6P-5Ib" id="Rit-hV-N9n"/>
                         <outlet property="errorView" destination="cSq-Ml-QN5" id="fpf-rm-RuO"/>
                         <outlet property="indicator" destination="plz-ib-KNL" id="mDF-nT-g5h"/>
                         <outlet property="lbError" destination="zwV-OI-ghb" id="6O3-0y-5iN"/>
@@ -682,6 +683,7 @@
                     </view>
                     <connections>
                         <outlet property="btIsAdmin" destination="4lW-xO-Lad" id="QsP-wv-u8g"/>
+                        <outlet property="btSubmit" destination="GQP-jd-VwG" id="HNj-rl-jsA"/>
                         <outlet property="errorView" destination="cVk-uD-7Up" id="UKC-JL-UZf"/>
                         <outlet property="indicator" destination="5ad-pS-sDp" id="9Vh-7C-3pa"/>
                         <outlet property="lbError" destination="kco-NJ-n3U" id="szG-4b-RiA"/>
