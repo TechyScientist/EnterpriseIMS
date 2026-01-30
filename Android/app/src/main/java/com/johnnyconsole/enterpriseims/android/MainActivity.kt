@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             super.onPreExecute()
             binding.indicator.visibility = VISIBLE
             binding.tvError.visibility = GONE
+            binding.btSignIn.isEnabled = false
         }
 
         override fun doInBackground(vararg params: String?) {
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         override fun onPostExecute(result: Unit?) {
             super.onPostExecute(result)
             binding.indicator.visibility = INVISIBLE
+            binding.btSignIn.isEnabled = true
             if(response == HTTP_OK) {
                 binding.etPassword.text.clear()
                 getSharedPreferences("EnterpriseIMS", MODE_PRIVATE).edit(commit=true) {
