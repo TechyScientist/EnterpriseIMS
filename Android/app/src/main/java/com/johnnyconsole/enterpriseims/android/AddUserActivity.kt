@@ -27,7 +27,6 @@ import javax.net.ssl.HttpsURLConnection
 class AddUserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddUserBinding
-    private var processing = false
 
     private inner class AddUserTask: AsyncTask<String, Unit, Unit>() {
 
@@ -39,6 +38,7 @@ class AddUserActivity : AppCompatActivity() {
             binding.tvError.visibility = GONE
             binding.tvSuccess.visibility = GONE
             binding.indicator.visibility = VISIBLE
+            binding.btSubmit.isEnabled = false
         }
 
         override fun doInBackground(vararg params: String?) {
@@ -66,7 +66,7 @@ class AddUserActivity : AppCompatActivity() {
             super.onPostExecute(result)
             with(binding) {
                 indicator.visibility = GONE
-                processing = false
+                btSubmit.isEnabled = true
 
                 if (response == HTTP_CREATED) {
                     tvSuccess.text = Html.fromHtml(getString(R.string.success_message, "User ${etUsername.text} added successfully."), FROM_HTML_MODE_LEGACY)
@@ -112,17 +112,14 @@ class AddUserActivity : AppCompatActivity() {
             btBack.setOnClickListener {_ -> confirmExit()}
 
             btSubmit.setOnClickListener { _ ->
-                if(!processing) {
-                    processing = true
-                    AddUserTask().execute(
-                        etUsername.text.toString(),
-                        etName.text.toString(),
-                        etPassword.text.toString(),
-                        etConfirmPassword.text.toString(),
-                        spIsAdmin.selectedItem.toString(),
-                        this@AddUserActivity.intent.getStringExtra("username")
-                    )
-                }
+                AddUserTask().execute(
+                    etUsername.text.toString(),
+                    etName.text.toString(),
+                    etPassword.text.toString(),
+                    etConfirmPassword.text.toString(),
+                    spIsAdmin.selectedItem.toString(),
+                    this@AddUserActivity.intent.getStringExtra("username")
+                )
             }
 
             onBackPressedDispatcher.addCallback(this@AddUserActivity, object: OnBackPressedCallback(true) {
