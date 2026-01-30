@@ -5,6 +5,7 @@ import android.content.DialogInterface.BUTTON_POSITIVE
 import android.content.Intent
 import android.os.Bundle
 import android.view.View.VISIBLE
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -44,21 +45,26 @@ class DashboardActivity : AppCompatActivity() {
                 }
             }
 
-            btSignOut.setOnClickListener { _ ->
-                val dialog = AlertDialog.Builder(this@DashboardActivity)
-                    .setTitle(R.string.confirm_sign_out_title)
-                    .setMessage(R.string.confirm_sign_out_message)
-                    .setPositiveButton(R.string.yes) { _, _ -> finish() }
-                    .setNegativeButton(R.string.no, null)
-                    .create()
-                dialog.show()
-                dialog.getButton(BUTTON_POSITIVE).setTextColor(getColor(R.color.success))
-                dialog.getButton(BUTTON_NEGATIVE).setTextColor(getColor(R.color.error))
-
-            }
-
+            btSignOut.setOnClickListener { _ -> confirmSignOut() }
+            onBackPressedDispatcher.addCallback(this@DashboardActivity,
+                object: OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        confirmSignOut()
+                    }
+                }
+            )
         }
     }
 
-    //TODO: Add listener for back button pressed and execute the sign out confirmation
+    private fun confirmSignOut() {
+        val dialog = AlertDialog.Builder(this@DashboardActivity)
+            .setTitle(R.string.confirm_sign_out_title)
+            .setMessage(R.string.confirm_sign_out_message)
+            .setPositiveButton(R.string.yes) { _, _ -> finish() }
+            .setNegativeButton(R.string.no, null)
+            .create()
+        dialog.show()
+        dialog.getButton(BUTTON_POSITIVE).setTextColor(getColor(R.color.success))
+        dialog.getButton(BUTTON_NEGATIVE).setTextColor(getColor(R.color.error))
+    }
 }
