@@ -35,7 +35,7 @@ class DeleteUserViewController: UIViewController {
             let responseCode = (response as! HTTPURLResponse).statusCode
             
             DispatchQueue.main.async { [self] in
-                guard responseCode != OK, let data = data else {
+                guard responseCode == ACCEPTED, let data = data else {
                     let errorText = NSMutableAttributedString(string: "Error", attributes: [.font: UIFont.boldSystemFont(ofSize: CGFloat(17))])
                     if(responseCode == BAD_REQUEST) {
                         errorText.append(NSAttributedString(string: ": Missing or empty parameter, please try again.", attributes: [.font: UIFont.systemFont(ofSize: CGFloat(17))]))
