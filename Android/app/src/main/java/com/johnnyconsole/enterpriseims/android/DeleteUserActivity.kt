@@ -48,6 +48,7 @@ class DeleteUserActivity : AppCompatActivity() {
 
         override fun onPreExecute() {
             super.onPreExecute()
+            users.clear()
             binding.tvError.visibility = GONE
             binding.tvSuccess.visibility = GONE
             binding.indicator.visibility = VISIBLE
@@ -86,7 +87,13 @@ class DeleteUserActivity : AppCompatActivity() {
                 indicator.visibility = GONE
                 if(response == HTTP_ACCEPTED) {
                     (spUser.adapter as UserAdapter).notifyDataSetChanged()
-                    btSubmit.isEnabled = true
+                    if(users.isNotEmpty()) {
+                        spUser.setSelection(0)
+                        btSubmit.isEnabled = true
+                    } else {
+                        tvError.visibility = VISIBLE
+                        tvError.text = Html.fromHtml(getString(R.string.error_message, "No Users Found."), FROM_HTML_MODE_LEGACY)
+                    }
                 }
                 else {
                     tvError.visibility = VISIBLE
@@ -105,19 +112,62 @@ class DeleteUserActivity : AppCompatActivity() {
     }
 
     private inner class DeleteUserTask: AsyncTask<String, Unit, Unit>() {
+
+        private var response = HTTP_ACCEPTED
+        private lateinit var userDeleted: String
+
         override fun onPreExecute() {
             super.onPreExecute()
             binding.tvError.visibility = GONE
             binding.tvSuccess.visibility = GONE
             binding.indicator.visibility = VISIBLE
+            binding.btSubmit.isEnabled = false
         }
 
         override fun doInBackground(vararg params: String?) {
-
+            userDeleted = params[0]!!
+            val conn = URL("https://wildfly.johnnyconsole.com:8443/ims/api/user/delete")
+                .openConnection() as HttpsURLConnection
+            conn.requestMethod = "POST"
+            conn.doOutput = true
+            with(conn.outputStream) {
+                write("username=${params[0]}".toByteArray())
+                write("&auth-user=${params[1]}".toByteArray())
+                flush()
+                close()
+            }
+            conn.hostnameVerifier = HostnameVerifier { _, _ -> true }
+            conn.connect()
+            response = conn.responseCode
+            conn.disconnect()
         }
 
         override fun onPostExecute(result: Unit) {
             super.onPostExecute(result)
+            val task = GetAllUsersTask()
+            task.execute(intent.getStringExtra("username"))
+            task.get()
+
+            with(binding) {
+                indicator.visibility = VISIBLE
+                if(users.isNotEmpty()) btSubmit.isEnabled = true
+
+                if (response == HTTP_ACCEPTED) {
+                    tvSuccess.text = Html.fromHtml(getString(R.string.success_message, "User $userDeleted deleted successfully."), FROM_HTML_MODE_LEGACY)
+                    tvSuccess.visibility = VISIBLE
+                }
+                else {
+                    tvError.text = Html.fromHtml(getString(R.string.error_message,
+                        when(response) {
+                            HTTP_BAD_REQUEST -> "Missing or empty parameter, please try again."
+                            HTTP_NOT_FOUND -> "User ${intent.getStringExtra("username")} not found."
+                            HTTP_UNAUTHORIZED -> "User ${intent.getStringExtra("username")} is not an administrator."
+                            else -> "Unexpected HTTP response code: $response."
+                        }
+                    ), FROM_HTML_MODE_LEGACY)
+                    tvError.visibility = VISIBLE
+                }
+            }
         }
     }
 
@@ -134,6 +184,13 @@ class DeleteUserActivity : AppCompatActivity() {
             }
 
             btBack.setOnClickListener { _ -> finish() }
+
+            btSubmit.setOnClickListener { _ ->
+                var username = spUser.selectedItem.toString()
+                username = username.substring(username.indexOf('(')+ 1, username.indexOf(')'))
+                DeleteUserTask().execute(username, intent.getStringExtra("username"))
+            }
+
             spUser.adapter = UserAdapter()
             GetAllUsersTask()
                 .execute(this@DeleteUserActivity.intent.getStringExtra("username"))
