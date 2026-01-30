@@ -44,7 +44,8 @@ class MainActivity : AppCompatActivity() {
             conn.doOutput = true
             conn.doInput = true
             with(conn.outputStream) {
-                write("username=${params[0]}&password=${params[1]}".toByteArray())
+                write("username=${params[0]}".toByteArray())
+                write("&password=${params[1]}".toByteArray())
                 flush()
                 close()
             }
