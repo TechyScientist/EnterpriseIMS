@@ -29,5 +29,13 @@
     <string name="delete_user">Delete an Existing User Account</string>
     <string name="add_user_header">IMS Android: Add a User</string>
     <string name="confirm_exit_title">Confirm Exit</string>
-    <string name="confirm_exit_message">Are you sure you want to exit? Your changes will not be saved.</string>
+    <string name="confirm_password_label">Confirm Password:</string>
+    <string name="name_label">Name:</string>
+    <string name="admin_label">Is this User an Administrator?</string>
+    <string-array name="yes_no">
+        <item>No</item>
+        <item>Yes</item>
+    </string-array>
+    <string name="confirm_exit_message">Are you sure you want to exit? Your changes will be lost.</string>
+    <string name="submit">Submit</string>
 </resources>
