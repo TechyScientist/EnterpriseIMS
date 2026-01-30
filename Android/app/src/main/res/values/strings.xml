@@ -27,4 +27,7 @@
     <string name="provision_user">Provision a User Account</string>
     <string name="edit_user">Modify an Existing User Account</string>
     <string name="delete_user">Delete an Existing User Account</string>
+    <string name="add_user_header">IMS Android: Add a User</string>
+    <string name="confirm_exit_title">Confirm Exit</string>
+    <string name="confirm_exit_message">Are you sure you want to exit? Your changes will not be saved.</string>
 </resources>
