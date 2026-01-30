@@ -1,5 +1,6 @@
 package com.johnnyconsole.enterpriseims.android
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,12 @@ class AdminDashboardActivity : AppCompatActivity() {
                 insets
             }
 
+            btProvisionUser.setOnClickListener { _ ->
+                startActivity(
+                    Intent(this@AdminDashboardActivity, AddUserActivity::class.java)
+                        .putExtras(intent)
+                )
+            }
 
             btBack.setOnClickListener { _ ->
                 finish()
