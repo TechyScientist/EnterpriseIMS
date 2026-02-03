@@ -1,7 +1,6 @@
 package com.johnnyconsole.enterpriseims.android
 
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
 import android.text.Html
 import android.view.View.GONE
@@ -21,79 +20,15 @@ import java.net.URL
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.HttpsURLConnection
 import androidx.core.content.edit
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection.HTTP_BAD_REQUEST
 
 class MainActivity : AppCompatActivity() {
 
-    private inner class SignInTask: AsyncTask<String, Unit, Unit>() {
-
-        private var response = 200
-        private lateinit var userInfo: JSONObject
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-            binding.indicator.visibility = VISIBLE
-            binding.tvError.visibility = GONE
-            binding.btSignIn.isEnabled = false
-        }
-
-        override fun doInBackground(vararg params: String?) {
-            val conn = URL("https://wildfly.johnnyconsole.com:8443/ims/api/auth/sign-in")
-                .openConnection() as HttpsURLConnection
-            conn.requestMethod = "POST"
-            conn.hostnameVerifier = HostnameVerifier { _, _ -> true }
-            conn.doOutput = true
-            conn.doInput = true
-            with(conn.outputStream) {
-                write("username=${params[0]}".toByteArray())
-                write("&password=${params[1]}".toByteArray())
-                flush()
-                close()
-            }
-            conn.connect()
-            if(conn.responseCode == HTTP_OK) {
-                val data = StringBuffer();
-                val reader = BufferedReader(InputStreamReader(conn.inputStream))
-                for (line in reader.readLines()) {
-                    data.append(line)
-                }
-                userInfo = JSONObject(data.toString())
-            }
-            else {
-                response = conn.responseCode
-            }
-            conn.disconnect()
-        }
-
-        override fun onPostExecute(result: Unit?) {
-            super.onPostExecute(result)
-            binding.indicator.visibility = INVISIBLE
-            binding.btSignIn.isEnabled = true
-            if(response == HTTP_OK) {
-                binding.etPassword.text.clear()
-                getSharedPreferences("EnterpriseIMS", MODE_PRIVATE).edit(commit=true) {
-                    putString("username", userInfo.getString("username"))
-                }
-
-                startActivity(
-                    Intent(this@MainActivity, DashboardActivity::class.java)
-                        .putExtra("username", userInfo.getString("username"))
-                        .putExtra("name", userInfo.getString("name"))
-                        .putExtra("administrator", userInfo.getBoolean("administrator"))
-                )
-            }
-            else {
-                binding.tvError.text = Html.fromHtml(getString(R.string.error_message,
-                    when(response) {
-                        HTTP_UNAUTHORIZED -> "Invalid credentials, please try again."
-                        HTTP_BAD_REQUEST -> "Empty credentials, please try again."
-                        else -> "Unexpected HTTP response code: $response."
-                    }), Html.FROM_HTML_MODE_LEGACY)
-                binding.tvError.visibility = VISIBLE
-            }
-        }
-
-    }
+    private lateinit var userInfo: JSONObject
 
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,11 +53,73 @@ class MainActivity : AppCompatActivity() {
                 Html.FROM_HTML_MODE_LEGACY)
 
             btSignIn.setOnClickListener { _ ->
-                SignInTask().execute(
-                    etUsername.text.toString().lowercase(),
-                    etPassword.text.toString()
-                )
+                lifecycleScope.launch {
+
+                    indicator.visibility = VISIBLE
+                    tvError.visibility = GONE
+                    btSignIn.isEnabled = false
+
+                    val response = signIn(
+                        etUsername.text.toString().lowercase(),
+                        etPassword.text.toString()
+                    )
+
+                    indicator.visibility = INVISIBLE
+                    btSignIn.isEnabled = true
+                    if (response == HTTP_OK) {
+                        etPassword.text.clear()
+                        getSharedPreferences("EnterpriseIMS", MODE_PRIVATE).edit(commit = true) {
+                            putString("username", userInfo.getString("username"))
+                        }
+
+                        startActivity(
+                            Intent(this@MainActivity, DashboardActivity::class.java)
+                                .putExtra("username", userInfo.getString("username"))
+                                .putExtra("name", userInfo.getString("name"))
+                                .putExtra("administrator", userInfo.getBoolean("administrator"))
+                        )
+                    } else {
+                        tvError.text = Html.fromHtml(
+                            getString(
+                                R.string.error_message,
+                                when (response) {
+                                    HTTP_UNAUTHORIZED -> "Invalid credentials, please try again."
+                                    HTTP_BAD_REQUEST -> "Empty credentials, please try again."
+                                    else -> "Unexpected HTTP response code: $response."
+                                }
+                            ), Html.FROM_HTML_MODE_LEGACY
+                        )
+                        tvError.visibility = VISIBLE
+                    }
+                }
             }
         }
+    }
+
+    private suspend fun signIn(username: String, password: String): Int = withContext(Dispatchers.IO) {
+        val conn = URL("https://wildfly.johnnyconsole.com:8443/ims/api/auth/sign-in")
+            .openConnection() as HttpsURLConnection
+        conn.requestMethod = "POST"
+        conn.hostnameVerifier = HostnameVerifier { _, _ -> true }
+        conn.doOutput = true
+        conn.doInput = true
+        with(conn.outputStream) {
+            write("username=$username".toByteArray())
+            write("&password=$password".toByteArray())
+            flush()
+            close()
+        }
+        conn.connect()
+        val response = conn.responseCode
+        if(response == HTTP_OK) {
+            val data = StringBuffer()
+            val reader = BufferedReader(InputStreamReader(conn.inputStream))
+            for (line in reader.readLines()) {
+                data.append(line)
+            }
+            userInfo = JSONObject(data.toString())
+        }
+        conn.disconnect()
+        response
     }
 }
