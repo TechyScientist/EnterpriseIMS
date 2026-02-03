@@ -2,7 +2,6 @@ package com.johnnyconsole.enterpriseims.android
 
 import android.content.DialogInterface.BUTTON_NEGATIVE
 import android.content.DialogInterface.BUTTON_POSITIVE
-import android.os.AsyncTask
 import android.os.Bundle
 import android.text.Html
 import android.text.Html.FROM_HTML_MODE_LEGACY
@@ -14,7 +13,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.johnnyconsole.enterpriseims.android.databinding.ActivityAddUserBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection.HTTP_BAD_REQUEST
 import java.net.HttpURLConnection.HTTP_CONFLICT
 import java.net.HttpURLConnection.HTTP_CREATED
@@ -27,75 +30,7 @@ import javax.net.ssl.HttpsURLConnection
 class AddUserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddUserBinding
-
-    private inner class AddUserTask: AsyncTask<String, Unit, Unit>() {
-
-        private var response = HTTP_CREATED
-        private val UNPROCESSABLE = 422
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-            binding.tvError.visibility = GONE
-            binding.tvSuccess.visibility = GONE
-            binding.indicator.visibility = VISIBLE
-            binding.btSubmit.isEnabled = false
-        }
-
-        override fun doInBackground(vararg params: String?) {
-            val conn = URL("https://wildfly.johnnyconsole.com:8443/ims/api/user/add")
-                .openConnection() as HttpsURLConnection
-            conn.requestMethod = "POST"
-            conn.hostnameVerifier = HostnameVerifier { _, _ -> true }
-            conn.doOutput = true
-            with(conn.outputStream) {
-                write("username=${params[0]}".toByteArray())
-                write("&name=${params[1]}".toByteArray())
-                write("&password=${params[2]}".toByteArray())
-                write("&confirm-password=${params[3]}".toByteArray())
-                write("&is-admin=${params[4] == "Yes"}".toByteArray())
-                write("&auth-user=${params[5]}".toByteArray())
-                flush()
-                close()
-            }
-            conn.connect()
-            response = conn.responseCode
-            conn.disconnect()
-        }
-
-        override fun onPostExecute(result: Unit?) {
-            super.onPostExecute(result)
-            with(binding) {
-                indicator.visibility = GONE
-                btSubmit.isEnabled = true
-
-                if (response == HTTP_CREATED) {
-                    tvSuccess.text = Html.fromHtml(getString(R.string.success_message, "User ${etUsername.text} added successfully."), FROM_HTML_MODE_LEGACY)
-                    tvSuccess.visibility = VISIBLE
-
-                    etUsername.text.clear()
-                    etName.text.clear()
-                    etPassword.text.clear()
-                    etConfirmPassword.text.clear()
-                    spIsAdmin.setSelection(0)
-                    etUsername.requestFocus()
-                }
-                else {
-                    tvError.text = Html.fromHtml(getString(R.string.error_message,
-                        when(response) {
-                            HTTP_BAD_REQUEST -> "Missing or empty parameter, please try again."
-                            HTTP_NOT_FOUND -> "User ${intent.getStringExtra("username")} not found."
-                            HTTP_UNAUTHORIZED -> "User ${intent.getStringExtra("username")} is not an administrator."
-                            HTTP_CONFLICT -> "User ${etUsername.text} already exists, please try a different username."
-                            UNPROCESSABLE -> "Your passwords do not match, please try again."
-                            else -> "Unexpected HTTP response code: $response."
-                        }
-                    ), FROM_HTML_MODE_LEGACY)
-                    tvError.visibility = VISIBLE
-                }
-            }
-        }
-
-    }
+    private val UNPROCESSABLE = 422
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,24 +44,69 @@ class AddUserActivity : AppCompatActivity() {
                 insets
             }
 
-            btBack.setOnClickListener {_ -> confirmExit()}
+            btBack.setOnClickListener { _ -> confirmExit() }
 
             btSubmit.setOnClickListener { _ ->
-                AddUserTask().execute(
-                    etUsername.text.toString(),
-                    etName.text.toString(),
-                    etPassword.text.toString(),
-                    etConfirmPassword.text.toString(),
-                    spIsAdmin.selectedItem.toString(),
-                    this@AddUserActivity.intent.getStringExtra("username")
-                )
+
+                lifecycleScope.launch {
+                    tvError.visibility = GONE
+                    tvSuccess.visibility = GONE
+                    indicator.visibility = VISIBLE
+                    btSubmit.isEnabled = false
+
+                    val response = addUser(
+                        etUsername.text.toString(),
+                        etName.text.toString(),
+                        etPassword.text.toString(),
+                        etConfirmPassword.text.toString(),
+                        spIsAdmin.selectedItem.toString() == "Yes",
+                        this@AddUserActivity.intent.getStringExtra("username")!!
+                    )
+                    indicator.visibility = GONE
+                    btSubmit.isEnabled = true
+
+                    if (response == HTTP_CREATED) {
+                        tvSuccess.text = Html.fromHtml(
+                            getString(
+                                R.string.success_message,
+                                "User ${etUsername.text} added successfully."
+                            ), FROM_HTML_MODE_LEGACY
+                        )
+                        tvSuccess.visibility = VISIBLE
+
+                        etUsername.text.clear()
+                        etName.text.clear()
+                        etPassword.text.clear()
+                        etConfirmPassword.text.clear()
+                        spIsAdmin.setSelection(0)
+                        etUsername.requestFocus()
+                    } else {
+                        tvError.text = Html.fromHtml(
+                            getString(
+                                R.string.error_message,
+                                when (response) {
+                                    HTTP_BAD_REQUEST -> "Missing or empty parameter, please try again."
+                                    HTTP_NOT_FOUND -> "User ${intent.getStringExtra("username")} not found."
+                                    HTTP_UNAUTHORIZED -> "User ${intent.getStringExtra("username")} is not an administrator."
+                                    HTTP_CONFLICT -> "User ${etUsername.text} already exists, please try a different username."
+                                    UNPROCESSABLE -> "Your passwords do not match, please try again."
+                                    else -> "Unexpected HTTP response code: $response."
+                                }
+                            ), FROM_HTML_MODE_LEGACY
+                        )
+                        tvError.visibility = VISIBLE
+                    }
+
+                }
             }
 
-            onBackPressedDispatcher.addCallback(this@AddUserActivity, object: OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    confirmExit()
-                }
-            })
+            onBackPressedDispatcher.addCallback(
+                this@AddUserActivity,
+                object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        confirmExit()
+                    }
+                })
         }
     }
 
@@ -139,5 +119,30 @@ class AddUserActivity : AppCompatActivity() {
             .create()
         dialog.show()
         dialog.getButton(BUTTON_POSITIVE).setTextColor(getColor(R.color.success))
-        dialog.getButton(BUTTON_NEGATIVE).setTextColor(getColor(R.color.error))}
+        dialog.getButton(BUTTON_NEGATIVE).setTextColor(getColor(R.color.error))
+    }
+
+    private suspend fun addUser(username: String, name: String, password: String,
+        confirmPassword: String, isAdmin: Boolean, adminUser: String): Int =
+        withContext(Dispatchers.IO) {
+        val conn = URL("https://wildfly.johnnyconsole.com:8443/ims/api/user/add")
+            .openConnection() as HttpsURLConnection
+        conn.requestMethod = "POST"
+        conn.hostnameVerifier = HostnameVerifier { _, _ -> true }
+        conn.doOutput = true
+        with(conn.outputStream) {
+            write("username=$username".toByteArray())
+            write("&name=$name".toByteArray())
+            write("&password=$password".toByteArray())
+            write("&confirm-password=$confirmPassword".toByteArray())
+            write("&is-admin=$isAdmin".toByteArray())
+            write("&auth-user=$adminUser".toByteArray())
+            flush()
+            close()
+        }
+        conn.connect()
+        val response = conn.responseCode
+        conn.disconnect()
+        response
+    }
 }
