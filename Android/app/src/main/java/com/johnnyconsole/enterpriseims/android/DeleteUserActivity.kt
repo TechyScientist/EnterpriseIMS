@@ -4,6 +4,7 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.text.Html
 import android.text.Html.FROM_HTML_MODE_LEGACY
+import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.ArrayAdapter
@@ -12,7 +13,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.johnnyconsole.enterpriseims.android.databinding.ActivityDeleteUserBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -38,75 +43,6 @@ class DeleteUserActivity : AppCompatActivity() {
 
         override fun getItem(position: Int): String {
             return users[position]
-        }
-
-    }
-
-    private inner class GetAllUsersTask: AsyncTask<String, Unit, Unit>() {
-
-        var response = HTTP_ACCEPTED
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-            users.clear()
-            binding.tvError.visibility = GONE
-            binding.tvSuccess.visibility = GONE
-            binding.indicator.visibility = VISIBLE
-            binding.btSubmit.isEnabled = false
-
-        }
-
-        override fun doInBackground(vararg params: String?) {
-            val conn = URL("https://wildfly.johnnyconsole.com:8443/ims/api/user/get-all?except=${params[0]}&auth-user=${params[0]}")
-                .openConnection() as HttpsURLConnection
-            conn.doInput = true
-            conn.hostnameVerifier = HostnameVerifier { _, _ -> true }
-            conn.connect()
-            response = conn.responseCode
-
-            if(response == HTTP_ACCEPTED) {
-                val json = StringBuffer()
-                with(BufferedReader(InputStreamReader(conn.inputStream))) {
-                    for (line in readLines()) {
-                        json.append(line)
-                    }
-                }
-
-                val array = JSONArray(json.toString())
-                for (i in 0 until array.length()) {
-                    val user = array.get(i) as JSONObject
-                    users.add("${user.getString("name")} (${user.getString("username")})")
-                }
-            }
-            conn.disconnect()
-        }
-
-        override fun onPostExecute(result: Unit) {
-            super.onPostExecute(result)
-            with(binding) {
-                indicator.visibility = GONE
-                if(response == HTTP_ACCEPTED) {
-                    (spUser.adapter as UserAdapter).notifyDataSetChanged()
-                    if(users.isNotEmpty()) {
-                        spUser.setSelection(0)
-                        btSubmit.isEnabled = true
-                    } else {
-                        tvError.visibility = VISIBLE
-                        tvError.text = Html.fromHtml(getString(R.string.error_message, "No Users Found."), FROM_HTML_MODE_LEGACY)
-                    }
-                }
-                else {
-                    tvError.visibility = VISIBLE
-                    tvError.text = Html.fromHtml(getString(R.string.error_message,
-                        when(response) {
-                            HTTP_BAD_REQUEST -> "Missing or empty parameter, please try again."
-                            HTTP_UNAUTHORIZED -> "User ${intent.getStringExtra("username")} is not an administrator."
-                            HTTP_NOT_FOUND -> "User ${intent.getStringExtra("username")} is not found."
-                            else -> "Unexpected HTTP response code: $response."
-                        }
-                    ), FROM_HTML_MODE_LEGACY)
-                }
-            }
         }
 
     }
@@ -144,9 +80,9 @@ class DeleteUserActivity : AppCompatActivity() {
 
         override fun onPostExecute(result: Unit) {
             super.onPostExecute(result)
-            val task = GetAllUsersTask()
-            task.execute(intent.getStringExtra("username"))
-            task.get()
+           // val task = GetAllUsersTask()
+           // task.execute(intent.getStringExtra("username"))
+//task.get()
 
             with(binding) {
                 indicator.visibility = VISIBLE
@@ -187,22 +123,80 @@ class DeleteUserActivity : AppCompatActivity() {
 
             btSubmit.setOnClickListener { _ ->
                 var username = spUser.selectedItem.toString()
-                username = username.substring(username.indexOf('(')+ 1, username.indexOf(')'))
+                username = username.substring(username.indexOf('(') + 1, username.indexOf(')'))
                 DeleteUserTask().execute(username, intent.getStringExtra("username"))
             }
 
             spUser.adapter = UserAdapter()
-            GetAllUsersTask()
-                .execute(this@DeleteUserActivity.intent.getStringExtra("username"))
-        }
 
-        onBackPressedDispatcher.addCallback(
-            this@DeleteUserActivity,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    finish()
+            lifecycleScope.launch {
+                tvError.visibility = GONE
+                tvSuccess.visibility = GONE
+                indicator.visibility = VISIBLE
+                btSubmit.isEnabled = false
+
+                val response =
+                    getUserList(this@DeleteUserActivity.intent.getStringExtra("username")!!)
+
+                indicator.visibility = GONE
+                if(response == HTTP_ACCEPTED) {
+                    (spUser.adapter as UserAdapter).notifyDataSetChanged()
+                    if(users.isNotEmpty()) {
+                        spUser.setSelection(0)
+                        btSubmit.isEnabled = true
+                    } else {
+                        tvError.visibility = VISIBLE
+                        tvError.text = Html.fromHtml(getString(R.string.error_message, "No Users Found."), FROM_HTML_MODE_LEGACY)
+                    }
+                }
+                else {
+                    tvError.visibility = VISIBLE
+                    tvError.text = Html.fromHtml(getString(R.string.error_message,
+                        when(response) {
+                            HTTP_BAD_REQUEST -> "Missing or empty parameter, please try again."
+                            HTTP_UNAUTHORIZED -> "User ${intent.getStringExtra("username")} is not an administrator."
+                            HTTP_NOT_FOUND -> "User ${intent.getStringExtra("username")} is not found."
+                            else -> "Unexpected HTTP response code: $response."
+                        }
+                    ), FROM_HTML_MODE_LEGACY)
                 }
             }
-        )
+
+            onBackPressedDispatcher.addCallback(
+                this@DeleteUserActivity,
+                object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        finish()
+                    }
+                }
+            )
+        }
+    }
+
+    private suspend fun getUserList(except: String): Int = withContext(Dispatchers.IO) {
+        users.clear()
+        val conn = URL("https://wildfly.johnnyconsole.com:8443/ims/api/user/get-all?except=$except&auth-user=${except}")
+            .openConnection() as HttpsURLConnection
+        conn.doInput = true
+        conn.hostnameVerifier = HostnameVerifier { _, _ -> true }
+        conn.connect()
+        val response = conn.responseCode
+
+        if(response == HTTP_ACCEPTED) {
+            val json = StringBuffer()
+            with(BufferedReader(InputStreamReader(conn.inputStream))) {
+                for (line in readLines()) {
+                    json.append(line)
+                }
+            }
+
+            val array = JSONArray(json.toString())
+            for (i in 0 until array.length()) {
+                val user = array.get(i) as JSONObject
+                users.add("${user.getString("name")} (${user.getString("username")})")
+            }
+        }
+        conn.disconnect()
+        response
     }
 }
