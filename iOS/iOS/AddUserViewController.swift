@@ -17,6 +17,7 @@ class AddUserViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var tfPassword: UITextField!
     @IBOutlet weak var tfConfirmPassword: UITextField!
     @IBOutlet weak var btIsAdmin: UIButton!
+    @IBOutlet weak var btSubmit: UIButton!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     private var user: User?
@@ -44,6 +45,7 @@ class AddUserViewController: UIViewController, UITextFieldDelegate {
         indicator.isHidden = false
         errorView.isHidden = true
         successView.isHidden = true
+        btSubmit.isEnabled = false
         
         var request = URLRequest(url: URL(string: "https://wildfly.johnnyconsole.com:8443/ims/api/user/add")!)
         request.httpMethod = "POST"
@@ -92,6 +94,7 @@ class AddUserViewController: UIViewController, UITextFieldDelegate {
                     self.lbError.attributedText = errorText
                 }
                 self.indicator.isHidden = true
+                self.btSubmit.isEnabled = true
             }
         }.resume()
     }
