@@ -1,10 +1,8 @@
 package com.johnnyconsole.enterpriseims.android
 
-import android.os.AsyncTask
 import android.os.Bundle
 import android.text.Html
 import android.text.Html.FROM_HTML_MODE_LEGACY
-import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.ArrayAdapter
@@ -44,67 +42,6 @@ class DeleteUserActivity : AppCompatActivity() {
         override fun getItem(position: Int): String {
             return users[position]
         }
-
-    }
-
-    private inner class DeleteUserTask: AsyncTask<String, Unit, Unit>() {
-
-        private var response = HTTP_ACCEPTED
-        private lateinit var userDeleted: String
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-            binding.tvError.visibility = GONE
-            binding.tvSuccess.visibility = GONE
-            binding.indicator.visibility = VISIBLE
-            binding.btSubmit.isEnabled = false
-        }
-
-        override fun doInBackground(vararg params: String?) {
-            userDeleted = params[0]!!
-            val conn = URL("https://wildfly.johnnyconsole.com:8443/ims/api/user/delete")
-                .openConnection() as HttpsURLConnection
-            conn.requestMethod = "POST"
-            conn.doOutput = true
-            with(conn.outputStream) {
-                write("username=${params[0]}".toByteArray())
-                write("&auth-user=${params[1]}".toByteArray())
-                flush()
-                close()
-            }
-            conn.hostnameVerifier = HostnameVerifier { _, _ -> true }
-            conn.connect()
-            response = conn.responseCode
-            conn.disconnect()
-        }
-
-        override fun onPostExecute(result: Unit) {
-            super.onPostExecute(result)
-           // val task = GetAllUsersTask()
-           // task.execute(intent.getStringExtra("username"))
-//task.get()
-
-            with(binding) {
-                indicator.visibility = VISIBLE
-                if(users.isNotEmpty()) btSubmit.isEnabled = true
-
-                if (response == HTTP_ACCEPTED) {
-                    tvSuccess.text = Html.fromHtml(getString(R.string.success_message, "User $userDeleted deleted successfully."), FROM_HTML_MODE_LEGACY)
-                    tvSuccess.visibility = VISIBLE
-                }
-                else {
-                    tvError.text = Html.fromHtml(getString(R.string.error_message,
-                        when(response) {
-                            HTTP_BAD_REQUEST -> "Missing or empty parameter, please try again."
-                            HTTP_NOT_FOUND -> "User ${intent.getStringExtra("username")} not found."
-                            HTTP_UNAUTHORIZED -> "User ${intent.getStringExtra("username")} is not an administrator."
-                            else -> "Unexpected HTTP response code: $response."
-                        }
-                    ), FROM_HTML_MODE_LEGACY)
-                    tvError.visibility = VISIBLE
-                }
-            }
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -124,7 +61,56 @@ class DeleteUserActivity : AppCompatActivity() {
             btSubmit.setOnClickListener { _ ->
                 var username = spUser.selectedItem.toString()
                 username = username.substring(username.indexOf('(') + 1, username.indexOf(')'))
-                DeleteUserTask().execute(username, intent.getStringExtra("username"))
+
+                lifecycleScope.launch {
+                    tvError.visibility = GONE
+                    tvSuccess.visibility = GONE
+                    indicator.visibility = VISIBLE
+                    btSubmit.isEnabled = false
+
+                    val response = deleteUser(username, intent.getStringExtra("username")!!)
+                    getUserList(intent.getStringExtra("username")!!)
+
+                    indicator.visibility = VISIBLE
+                    btSubmit.isEnabled = users.isNotEmpty()
+
+                    if (response == HTTP_ACCEPTED) {
+                        tvSuccess.text = Html.fromHtml(
+                            getString(
+                                R.string.success_message,
+                                "User $username deleted successfully."
+                            ), FROM_HTML_MODE_LEGACY
+                        )
+                        tvSuccess.visibility = VISIBLE
+
+                        (spUser.adapter as UserAdapter).notifyDataSetChanged()
+
+                        if (users.isEmpty()) {
+                            tvError.visibility = VISIBLE
+                            tvError.text = Html.fromHtml(
+                                getString(R.string.error_message, "No Users Found."),
+                                FROM_HTML_MODE_LEGACY
+                            )
+                        }
+                        else spUser.setSelection(0)
+
+                    } else {
+                        tvError.text = Html.fromHtml(
+                            getString(
+                                R.string.error_message,
+                                when (response) {
+                                    HTTP_BAD_REQUEST -> "Missing or empty parameter, please try again."
+                                    HTTP_NOT_FOUND -> "User ${intent.getStringExtra("username")} not found."
+                                    HTTP_UNAUTHORIZED -> "User ${intent.getStringExtra("username")} is not an administrator."
+                                    else -> "Unexpected HTTP response code: $response."
+                                }
+                            ), FROM_HTML_MODE_LEGACY
+                        )
+                        tvError.visibility = VISIBLE
+                    }
+
+                    indicator.visibility = GONE
+                }
             }
 
             spUser.adapter = UserAdapter()
@@ -139,26 +125,31 @@ class DeleteUserActivity : AppCompatActivity() {
                     getUserList(this@DeleteUserActivity.intent.getStringExtra("username")!!)
 
                 indicator.visibility = GONE
-                if(response == HTTP_ACCEPTED) {
+                if (response == HTTP_ACCEPTED) {
                     (spUser.adapter as UserAdapter).notifyDataSetChanged()
-                    if(users.isNotEmpty()) {
+                    if (users.isNotEmpty()) {
                         spUser.setSelection(0)
                         btSubmit.isEnabled = true
                     } else {
                         tvError.visibility = VISIBLE
-                        tvError.text = Html.fromHtml(getString(R.string.error_message, "No Users Found."), FROM_HTML_MODE_LEGACY)
+                        tvError.text = Html.fromHtml(
+                            getString(R.string.error_message, "No Users Found."),
+                            FROM_HTML_MODE_LEGACY
+                        )
                     }
-                }
-                else {
+                } else {
                     tvError.visibility = VISIBLE
-                    tvError.text = Html.fromHtml(getString(R.string.error_message,
-                        when(response) {
-                            HTTP_BAD_REQUEST -> "Missing or empty parameter, please try again."
-                            HTTP_UNAUTHORIZED -> "User ${intent.getStringExtra("username")} is not an administrator."
-                            HTTP_NOT_FOUND -> "User ${intent.getStringExtra("username")} is not found."
-                            else -> "Unexpected HTTP response code: $response."
-                        }
-                    ), FROM_HTML_MODE_LEGACY)
+                    tvError.text = Html.fromHtml(
+                        getString(
+                            R.string.error_message,
+                            when (response) {
+                                HTTP_BAD_REQUEST -> "Missing or empty parameter, please try again."
+                                HTTP_UNAUTHORIZED -> "User ${intent.getStringExtra("username")} is not an administrator."
+                                HTTP_NOT_FOUND -> "User ${intent.getStringExtra("username")} is not found."
+                                else -> "Unexpected HTTP response code: $response."
+                            }
+                        ), FROM_HTML_MODE_LEGACY
+                    )
                 }
             }
 
@@ -196,6 +187,24 @@ class DeleteUserActivity : AppCompatActivity() {
                 users.add("${user.getString("name")} (${user.getString("username")})")
             }
         }
+        conn.disconnect()
+        response
+    }
+
+    private suspend fun deleteUser(username: String, authUser: String): Int = withContext(Dispatchers.IO) {
+        val conn = URL("https://wildfly.johnnyconsole.com:8443/ims/api/user/delete")
+            .openConnection() as HttpsURLConnection
+        conn.requestMethod = "POST"
+        conn.doOutput = true
+        with(conn.outputStream) {
+            write("username=$username".toByteArray())
+            write("&auth-user=$authUser".toByteArray())
+            flush()
+            close()
+        }
+        conn.hostnameVerifier = HostnameVerifier { _, _ -> true }
+        conn.connect()
+        val response = conn.responseCode
         conn.disconnect()
         response
     }
