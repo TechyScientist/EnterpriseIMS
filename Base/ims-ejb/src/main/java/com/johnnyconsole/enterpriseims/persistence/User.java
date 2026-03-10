@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Table(name="ims_users")
 @NamedQueries({
         @NamedQuery(name="User.FindByUsername", query="SELECT u FROM User u WHERE u.username = :username"),
-        @NamedQuery(name="User.FindAllExcept", query="SELECT u FROM User u WHERE u.username != :username"),
+        @NamedQuery(name="User.FindAllExcept", query="SELECT u FROM User u WHERE u.username <> :username"),
         @NamedQuery(name="User.Count", query="SELECT COUNT(u) AS count FROM User u")
 })
 public class User {
