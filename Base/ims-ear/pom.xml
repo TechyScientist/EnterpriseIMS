@@ -41,7 +41,7 @@
 
 
     <build>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>Inventory Management System</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
