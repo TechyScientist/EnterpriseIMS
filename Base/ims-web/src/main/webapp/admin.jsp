@@ -18,14 +18,14 @@
 <div id="horizontal">
     <div>
         <h3>Asset Management</h3>
-        <a href="">Add an Asset</a>
-        <a href="">Modify an Existing Asset</a>
-        <a href="">Delete an Existing Asset</a>
+        <a href="add-asset.jsp">Add an Asset</a>
+        <a href="modify-asset.jsp">Modify an Existing Asset</a>
+        <a href="delete-asset.jsp">Delete an Existing Asset</a>
     </div>
     <div>
         <h3>User Management</h3>
         <a href="add-user.jsp">Provision a User Account</a>
-        <a href="">Modify an Existing User Account</a>
+        <a href="modify-user.jsp">Modify an Existing User Account</a>
         <a href="delete-user.jsp">Delete an Existing User Account</a>
     </div>
 </div>
