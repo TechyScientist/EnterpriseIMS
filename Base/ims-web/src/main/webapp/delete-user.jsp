@@ -1,4 +1,4 @@
-<% String pageName = "administration", pageTitle = "Delete a User"; %>
+<% String pageCategory = "administration", pageTitle = "Delete a User"; %>
 <%@ include file="assets/include/header-admin.jsp" %>
 <%@ page import="com.johnnyconsole.enterpriseims.persistence.interfaces.UserDao" %>
 <%@ page import="java.util.List" %>

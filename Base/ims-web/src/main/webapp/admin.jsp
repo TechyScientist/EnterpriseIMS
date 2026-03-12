@@ -1,4 +1,4 @@
-<% String pageName = "administration", pageTitle = "Administration"; %>
+<% String pageCategory = "administration", pageTitle = "Administration"; %>
 <%@ include file="assets/include/header-admin.jsp" %>
 <style>
     div#horizontal {

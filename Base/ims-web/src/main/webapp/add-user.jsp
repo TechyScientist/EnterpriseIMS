@@ -1,4 +1,4 @@
-<% String pageName = "administration", pageTitle = "Add a User"; %>
+<% String pageCategory = "administration", pageTitle = "Add a User"; %>
 <%@ include file="assets/include/header-admin.jsp" %>
 
 <% if(request.getParameter("user") != null) { %>

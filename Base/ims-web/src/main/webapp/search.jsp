@@ -1,4 +1,4 @@
-<% String pageName = "search", pageTitle = "Search"; %>
+<% String pageCategory = "search", pageTitle = "Search"; %>
 <%@ include file="assets/include/header.jsp" %>
 
 <% String error = request.getParameter("error"), message = request.getParameter("message");
