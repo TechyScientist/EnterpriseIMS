@@ -28,7 +28,6 @@ h3 {
 }
 
 a {
-    display: block;
     width: fit-content;
     color: black;
     margin-bottom: 10px;
@@ -123,4 +122,8 @@ p#error {
     text-align: center;
     padding: 10px;
     margin-bottom: 10px;
+}
+
+p#error a {
+    color: white;
 }
