@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <web-app>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error-pages/404.jsp</location>
+    </error-page>
     <servlet>
         <servlet-name>SignInServlet</servlet-name>
         <servlet-class>com.johnnyconsole.enterpriseims.servlet.SignInServlet</servlet-class>
